@@ -1,0 +1,25 @@
+<?php
+	$devconv=array(
+		"€"=>array(
+			"€"=>1,
+			"F"=>6.56,
+			"$"=>1.174
+		),
+		"F"=>array(
+			"F"=>1,
+			"€"=>0.1524,
+			"$"=>0.1789
+		),
+		"$"=>array(
+			"$"=>1,
+			"€"=>1.24,
+			"F"=>7.7
+		)
+	);
+	if(isset($_POST["value"])){
+		$conv=$devconv[$_POST["dev"]][$_POST["devconv"]];
+		$res=floatval($_POST["value"])*$conv;
+	}
+	else{
+		$res="Erreur";
+	}
