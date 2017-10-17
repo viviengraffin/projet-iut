@@ -6,8 +6,7 @@
 		private $login;
 		private $password;
 		
-		function __construct($id,$nom,$prenom,$login,$password,$issha1=false){
-			$this->id=$id;
+		function __construct($nom,$prenom,$login,$password,$issha1=false){
 			$this->nom=$nom;
 			$this->prenom=$prenom;
 			$this->login=$login;
@@ -17,6 +16,9 @@
 			else{
 				$this->password=$password;
 			}
+		}
+		public function setId($id){
+			$this->id=$id;
 		}
 		public function getId(){
 			return($this->id);
@@ -32,5 +34,8 @@
 		}
 		public function getPassword(){
 			return($this->password);
+		}
+		public function getTab(){
+			return(array($this->nom,$this->prenom,$this->login,$this->password));
 		}
 	}
