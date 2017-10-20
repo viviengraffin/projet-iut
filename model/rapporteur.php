@@ -20,6 +20,12 @@
 		public function setId($id){
 			$this->id=$id;
 		}
+		public function setPassword($password,$issha=false){
+			if(!$issha){
+				$password=sha512($password);
+			}
+			$this->password=$password;
+		}
 		public function getId(){
 			return($this->id);
 		}

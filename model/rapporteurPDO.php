@@ -50,7 +50,10 @@
 		public static function disconnect(){
 			unset($_SESSION[RapporteurPDO::$connectName]);
 		}
-		public static function getUser(){
+		public static function getUser($id){
+			
+		}
+		public static function getConnectedUser(){
 			if(isset($_SESSION["p_connect"])){
 				return($_SESSION["p_connect"]);
 			}
@@ -61,6 +64,17 @@
 		public static function isConnected(){
 			if(isset($_SESSION[RapporteurPDO::$connectName])){
 				return(true);
+			}
+			else{
+				return(false);
+			}
+		}
+		public static function changePassword($user,$oldpassword,$newpassword){
+			
+		}
+		public static function isRoot(){
+			if(RapporteurPDO::isConnected()){
+				return(RapporteurPDO::getConnectedUser()->getLogin()=="root");
 			}
 			else{
 				return(false);
