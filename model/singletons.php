@@ -12,3 +12,8 @@
 			return(db::$db);
 		}
 	}
+	class csrfi{
+		public static function getInstance(){
+			return(new CSRF());
+		}
+	}

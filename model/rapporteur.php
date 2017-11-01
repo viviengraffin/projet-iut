@@ -5,11 +5,15 @@
 		private $prenom;
 		private $login;
 		private $password;
+		private $dateNaiss;
+		private $mail;
 		
-		function __construct($nom,$prenom,$login,$password,$issha1=false){
+		function __construct($nom,$prenom,$login,$password,$dateNaiss,$mail,$issha1=false){
 			$this->nom=$nom;
 			$this->prenom=$prenom;
 			$this->login=$login;
+			$this->dateNaiss=$dateNaiss;
+			$this->mail=$mail;
 			if(!$issha1){
 				$this->password=sha512($password);
 			}
@@ -42,6 +46,12 @@
 			return($this->password);
 		}
 		public function getTab(){
-			return(array($this->nom,$this->prenom,$this->login,$this->password));
+			return(array("nom"=>$this->nom,"prenom"=>$this->prenom,"login"=>$this->login,"password"=>$this->password,"mail"=>$this->mail,"dateNaiss"=>$this->dateNaiss["year"]."-".$this->dateNaiss["month"]."-".$this->dateNaiss["day"]));
+		}
+		public function getDateNaiss(){
+			return($this->dateNaiss);
+		}
+		public function getMail(){
+			return($this->mail);
 		}
 	}

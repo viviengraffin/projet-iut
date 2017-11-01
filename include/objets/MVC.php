@@ -129,31 +129,10 @@
 		private function load($c,$v,$d=array()){
 			$CONTROLLER=array();
 			$CONTROLLER["name"]=$c;
-			$CONTROLLER["datas"]=$d;
 			$CONTROLLER["view"]=$v;
 			$CONTROLLER["method"]=$_SERVER["REQUEST_METHOD"];
 			$CONTROLLER["url"]=$_SERVER["REQUEST_URI"];
 			$CONTROLLER["state"]=200;
-			$DATA=array();
-			$i=0;
-			$taille=count($CONTROLLER["datas"]);
-			if($taille>0){
-				$values=MVC::getData();
-				while($i<$taille){
-					if(isset($_GET[$d[$i]])){
-						$DATA[$d[$i]]=$_GET[$d[$i]];
-					}
-					else{
-						if(isset($values[$i])){
-							$DATA[$d[$i]]=$values[$i];
-						}
-					}
-					$i++;
-				}
-				unset($values);
-			}
-			unset($i);
-			unset($d);
 			if(file_exists(get_controller_address($c))){
 				include(get_controller_address($c));
 				if(isset($CONTROLLER["changeDo"])){

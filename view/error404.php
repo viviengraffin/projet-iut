@@ -10,7 +10,9 @@
 		</style>
 	</head>
 	<body>
+		<?php load_view("header",["personne"=>"Il","mot"=>"bonjour"]); ?>
 		<h1>Erreur 404</h1>
 		La page <?= $CONTROLLER["url"]; ?> n'existe pas.
+		<?php load_view("footer"); ?>
 	</body>
 </html>
