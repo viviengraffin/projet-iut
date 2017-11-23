@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 	</head>
 	<body>
+		<?php load_view("header"); ?>
 		<?= $form->print(); ?>
 	</body>
 </html>

@@ -1,0 +1,10 @@
+<?php
+	if(RapporteurPDO::isRoot()){
+		$rapporteurs=RapporteurPDO::getList();
+		$csrf=getCsrfObject();
+		$csrf->clearAllTokens();
+		$token=$csrf->addToken(true);
+	}
+	else{
+		$CONTROLLER->changeView();
+	}

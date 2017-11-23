@@ -1,6 +1,7 @@
 <?php
 	class RapporteurPDO{
 		private static $connectName="p_connect";
+		private static $cookieTime=24*3600*365;
 		
 		public static function addRapporteur($rapporteur){
 			$pdo=db::getInstance();
@@ -12,8 +13,8 @@
 			$res=$pdo->request($req,array($rapporteur->getLogin()))->fetch()["COUNT(*)"];
 			if($res==0){
 				$req="
-					INSERT INTO rapporteur(nom,prenom,login,password,addr_mail,date_naiss)
-					VALUES(:nom,:prenom,:login,:password,:mail,:dateNaiss)
+					INSERT INTO rapporteur(nom,prenom,login,password,addr_mail)
+					VALUES(:nom,:prenom,:login,:password,:mail)
 				";
 				$pdo->request($req,$rapporteur->getTab());
 				return(true);
@@ -22,7 +23,7 @@
 				return(false);
 			}
 		}
-		public static function connection($login,$password){
+		private static function connectionCookie($login,$password){
 			$pdo=db::getInstance();
 			$req="
 				SELECT COUNT(*)
@@ -30,7 +31,7 @@
 				WHERE login=:login
 				AND password=:password
 			";
-			$data=array("login"=>$login,"password"=>sha512($password));
+			$data=array("login"=>$login,"password"=>$password);
 			$res=$pdo->request($req,$data)->fetch();
 			if($res["COUNT(*)"]==1){
 				$req="
@@ -50,7 +51,21 @@
 				return(false);
 			}
 		}
+		public static function connection($login,$password,$souvenir=false){
+			if(RapporteurPDO::connectionCookie($login,RapporteurPDO::hash($password))){
+				if($souvenir){
+					RapporteurPDO::setCookie($login,$password);
+				}
+				return(true);
+			}
+			else{
+				return(false);
+			}
+		}
 		public static function disconnect(){
+			if(Cookie::has(RapporteurPDO::$connectName)){
+				Cookie::remove(RapporteurPDO::$connectName);
+			}
 			Session::remove(RapporteurPDO::$connectName);
 		}
 		public static function getUser($id){
@@ -71,10 +86,26 @@
 			$pdo=db::getInstance();
 			$res=$pdo->request($req,array($id));
 			if($res=$res->fetch()){
-				$ret=new Rapporteur($res["nom"],$res["prenom"],$res["login"],$res["password"],array("day"=>$res["DAY(date_naiss)"],"month"=>$res["MONTH(date_naiss)"],"year"=>$res["YEAR(date_naiss)"]),$res["addr_mail"],true);
+				$ret=new Rapporteur($res["nom"],$res["prenom"],$res["login"],$res["password"],$res["addr_mail"],true);
 				$ret->setId($res["id"]);
 				return($ret);
 			}
+		}
+		public static function getList(){
+			$req="
+				SELECT *
+				FROM rapporteur
+				WHERE login!='root'
+			";
+			$pdo=db::getInstance();
+			$res=$pdo->request($req);
+			$ret=array();
+			while($line=$res->fetch()){
+				$r=new Rapporteur($line["nom"],$line["prenom"],$line["login"],$line["password"],$line["addr_mail"]);
+				$r->setId($line["id"]);
+				$ret=array_merge($ret,array($r));
+			}
+			return($ret);
 		}
 		public static function getConnectedUser(){
 			if(Session::exist(RapporteurPDO::$connectName)){
@@ -86,11 +117,49 @@
 		}
 		public static function isConnected(){
 			if(Session::exist(RapporteurPDO::$connectName)){
+				if(Cookie::has(RapporteurPDO::$connectName)){
+					Cookie::extend(RapporteurPDO::$connectName,RapporteurPDO::$cookieTime);
+				}
 				return(true);
 			}
 			else{
-				return(false);
+				if(Cookie::has(RapporteurPDO::$connectName)){
+					$good=true;
+					try{
+						$res=explode("----",Cookie::get(RapporteurPDO::$connectName));
+					}
+					catch(Exception $e){
+						Cookie::remove(RapporteurPDO::$connectName);
+						$good=false;
+					}
+					if($good){
+						if(RapporteurPDO::getSecurityHash()==$res[2]){
+							if(RapporteurPDO::connectionCookie($res[0],$res[1])){
+								Cookie::extend(RapporteurPDO::$connectName,RapporteurPDO::$cookieTime);
+								return(true);
+							}
+							else{
+								Cookie::remove(RapporteurPDO::$connectName);
+								return(false);
+							}
+						}
+						else{
+							Cookie::remove(RapporteurPDO::$connectName);
+							return(false);
+						}
+					}
+					else{
+						return(false);
+					}
+				}
+				else{
+					return(false);
+				}
 			}
+		}
+		private static function getSecurityHash(){
+			$browser=getBrowser();
+			return(RapporteurPDO::hash($browser["name"].$browser["platform"].$_SERVER["HTTP_ACCEPT_LANGUAGE"]));
 		}
 		public static function changePassword($user,$oldpassword,$newpassword){
 			$pdo=db::getInstance();
@@ -100,7 +169,7 @@
 				WHERE id=:id
 				AND password=:password
 			";
-			$data=array("id"=>$user->getId(),"password"=>sha512($oldpassword));
+			$data=array("id"=>$user->getId(),"password"=>RapporteurPDO::hash($oldpassword));
 			$res=$pdo->request($req,$data)->fetch()["COUNT(*)"];
 			if($res==1){
 				$req="
@@ -108,8 +177,11 @@
 					SET password=:password
 					WHERE id=:id
 				";
-				$data=array("password"=>sha512($newpassword),"id"=>$user->getId());
+				$data=array("password"=>RapporteurPDO::hash($newpassword),"id"=>$user->getId());
 				$pdo->request($req,$data);
+				if(Cookie::has(RapporteurPDO::$connectName)){
+					RapporteurPDO::setCookie($user->getLogin(),$newpassword);
+				}
 				return(true);
 			}
 			else{
@@ -117,7 +189,7 @@
 			}
 		}
 		private static function hash($str){
-			return(sha512($str));
+			return(sha256($str));
 		}
 		public static function removeUser($user){
 			if($user->getLogin()!="root"){
@@ -125,7 +197,7 @@
 					DELETE FROM rapporteur
 					WHERE id=:id
 				";
-				$data=array($user->getId());
+				$data=array("id"=>$user->getId());
 				db::getInstance()->request($req,$data);
 				return(true);
 			}
@@ -140,5 +212,8 @@
 			else{
 				return(false);
 			}
+		}
+		private static function setCookie($login,$password){
+			Cookie::set(RapporteurPDO::$connectName,$login."----".RapporteurPDO::hash($password)."----".RapporteurPDO::getSecurityHash(),RapporteurPDO::$cookieTime);
 		}
 	}

@@ -28,6 +28,7 @@
 			unset($datavalue);
 			unset($dataname);
 			unset($he);
+			unset($data);
 			include($this->filename);
 		}
 		public function isCommitted(){
@@ -49,52 +50,13 @@
 						$method="get";
 					}
 				}
-				else if((($b->getBalise()=="input")&&($b->get("type")=="file"))||(($b->has("name"))||($this->has($method,$b->get("name"))))){
+				else if(((($b->getBalise()=="input")&&($b->get("type")=="file"))||(($b->getBalise()=="input")&&($b->get("type")=="checkbox")))||(($b->has("name"))||($this->has($method,$b->get("name"))))){
 					if($b->getBalise()=="input"){
-						if($b->has("required")){
-							if($b->get("type")!="text"){
-								if($b->get("type")=="number"){
-									$value=$this->get($method,$b->get("name"));
-									if(($value=="")||($value!=intval($value))){
-										$ret=false;
-									}
-								}
-								else if($b->get("type")=="file"){
-									if(Files::exist($b->get("name"))){
-										if(Files::hasError($b->get("name"))){
-											$ret=false;
-										}
-									}
-									else{
-										$ret=false;
-									}
-								}
-								else{
-									if($this->get($method,$b->get("name"))==""){
-										$ret=false;
-									}
-								}
-							}
-							else{
-								if($this->get($method,$b->get("name")=="")){
-									$ret=false;
-								}
-							}
+						if($b->get("type")=="file"){
+							$ret=$this->verifyFile($b);
 						}
-						else{
-							if($b->get("type")=="file"){
-								if(Files::exist($b->get("name"))){
-									if(Files::hasError($b->get("name"))){
-										$ret=false;
-									}
-								}
-							}
-							else if($b->get("type")=="number"){
-								$value=$this->get($method,$b->get("name"));
-								if($value!=intval($value)){
-									$ret=false;
-								}
-							}
+						else if($b->get("type")=="number"){
+							$ret=$this->verifyNumber($b);
 						}
 					}
 					else{
@@ -110,11 +72,78 @@
 			}
 			return($ret);
 		}
+		private function verifyNumber($b){
+			$ret=true;
+			$value=$this->get($method,$b->get("name"));
+			if($value!=""){
+				if(!$b->has("step")){
+					if(($value=="")||($value!=intval($value))){
+						$ret=false;
+					}
+				}
+				else if($value==floatval($value)){
+					$step=$b->get("step");
+					if($value>0){
+						$i=0;
+						$ret=false;
+						while($i<$value){
+							if($i==$value){
+								$ret=true;
+							}
+							$i+=$step;
+						}
+					}
+					else if($value!=0){
+						$i=0;
+						$ret=false;
+						while($i>$value){
+							if($i==$value){
+								$ret=true;
+							}
+							$i-=$step;
+						}
+					}
+				}
+				else{
+					$ret=false;
+				}
+				if($ret){
+					if($b->has("min")){
+						if($b->get("min")>$value){
+							$ret=false;
+						}
+					}
+					if($b->has("max")){
+						if($b->get("max")<$value){
+							$ret=false;
+						}
+					}
+				}
+			}
+			else if($b->has("required")){
+				$ret=false;
+			}
+			return($ret);
+		}
+		private function verifyFile($b){
+			$ret=true;
+			if(Files::exist($b->get("name"))){
+				if(Files::hasError($b->get("name"))){
+					$ret=false;
+				}
+			}
+			else if($b->has("required")){
+				$ret=false;
+			}
+			return($ret);
+		}
 		private function searchBalise(){
 			$file=file($this->filename);
 			$search="<";
 			$seb=">";
-			$balise=array("form","input","select","textarea");
+			$balise=array("form","input","select","textarea","option");
+			$onSelect=false;
+			$onOption=false;
 			$blength=count($balise);
 			$i=0;
 			$length=count($file);
@@ -126,6 +155,21 @@
 				while($j<$llength){
 					$char=substr($line,$j,1);
 					if($char==$search){
+						if($onOption){
+							$k=$j-1;
+							$strOptionLabel="";
+							$goodOptionLabel=false;
+							while(!$goodOptionLabel){
+								$chOption=substr($line,$k,1);
+								if($chOption==$seb){
+									$goodOptionLabel=true;
+								}
+								else{
+									$strOptionLabel=$chOption.$strOptionLabel;
+								}
+							}
+							$lastOption->set("label",$strOptionLabel);
+						}
 						$str="";
 						$good=false;
 						$ec=false;
@@ -146,7 +190,23 @@
 						$good2=false;
 						$k=0;
 						$a=new HTMLInput($str);
-						if(!(($a->getBalise()=="input")&&(($a->get("type")=="submit")||($a->get("type")=="reset")))){
+						if($a->getBalise()=="select"){
+							$onSelect=true;
+							$res=array_merge($res,array($a));
+						}
+						else if($a->getBalise()=="/select"){
+							$onSelect=false;
+						}
+						else if($a->getBalise()=="option"){
+							$onOption=true;
+							$lastOption=$a;
+						}
+						else if($a->getBalise()=="/option"){
+							$onOption=false;
+							$res[count($res)-1]->addChild($last);
+							unset($last);
+						}
+						else if(!(($a->getBalise()=="input")&&(($a->get("type")=="submit")||($a->get("type")=="reset")))){
 							while(($k<$blength)&&(!$good2)){
 								if($a->getBalise()==$balise[$k]){
 									$res=array_merge($res,array($a));
@@ -166,26 +226,29 @@
 		}
 		private function get($method,$name){
 			if($method=="post"){
-				return(Post::get($name));
+				return(Data::$post->get($name));
 			}
 			else{
-				return(Getp::get($name));
+				return(Data::$get->get($name));
 			}
 		}
 		private function has($method,$name){
 			if($method=="post"){
-				return(Post::exist($name));
+				return(Data::$post->exist($name));
 			}
 			else{
-				return(Getp::exist($name));
+				return(Data::$get->exist($name));
 			}
 		}
 	}
 	class HTMLInput{
 		private $attributes;
 		private $balise;
+		private $childs;
+		private $i=0;
 		
 		function __construct($str){
+			$this->childs=array();
 			$balise="";
 			$i=0;
 			$length=strlen($str);
@@ -242,8 +305,25 @@
 		public function get($attribute){
 			return($this->attributes[$attribute]);
 		}
+		public function set($attribute,$value){
+			$this->attributes[$attribute]=$value;
+		}
 		public function has($attribute){
 			return(isset($this->attributes[$attribute]));
+		}
+		public function addChild($element){
+			$this->childs=array_merge($this->childs,array($element));
+		}
+		public function fetchChild(){
+			$length=count($this->childs);
+			if($this->i>=$length){
+				return(false);
+			}
+			else{
+				$ret=$this->childs[$this->i];
+				$this->i++;
+				return($ret);
+			}
 		}
 		public function getBalise(){
 			return($this->balise);

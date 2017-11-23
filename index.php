@@ -4,7 +4,12 @@
 	load_model("rapporteur");
 	load_model("rapporteurPDO");
 	
+	Cookie::setConfigFile("key",4096);
+	Cookie::httponly();
+	
 	$mvc->state("index","index","index");
+	
+	$mvc->state("root","root","root");
 	
 	$mvc->state("connectionAction","connectionAction");
 		
@@ -20,8 +25,12 @@
 	
 	$mvc->state("changePasswordAction","changePasswordAction");
 	
+	$mvc->state("deleteRapporteur","deleteRapporteur");
+	
 	$mvc->dstate("error404","error404");
 	
 	$mvc->state("disconnect","disconnect");
+	
+	$mvc->state("testPDF","testPDF");
 	
 	$mvc->start();

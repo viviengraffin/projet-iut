@@ -3,5 +3,5 @@
 		$form=new Form("changePassword");
 	}
 	else{
-		$CONTROLLER["view"]="";
+		$CONTROLLER->changeView();
 	}

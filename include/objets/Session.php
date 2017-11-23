@@ -46,5 +46,6 @@
 		public static function start(){
 			session_start();
 			Session::$isStarted=true;
+			session_regenerate_id(true);
 		}
 	}

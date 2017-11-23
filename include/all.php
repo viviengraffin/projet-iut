@@ -1,4 +1,5 @@
 <?php
+	include("objets/PDF.php");
 	include("objets/Form.php");
 	include("objets/Param.php");
 	include("objets/DataBase.php");
@@ -11,5 +12,8 @@
 	include("objets/Mail.php");
 	include("functions/load.php");
 	include("functions/hash.php");
+	include("functions/userAgent.php");
 	
+	new Cookie();
 	$mvc=new MVC();
+	Data::init();

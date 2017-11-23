@@ -4,28 +4,22 @@
 		private $nom;
 		private $prenom;
 		private $ancienneteEchelon;
-		private $ancienneteConference;
+		private $ancienneteEnseignement;
 		private $echelon;
-		private $activite;
+		private $recherche;
+		private $enseignement;
 		private $tachesAdmin;
-		private $login;
-		private $password;
 		
-		function __construct($num,$login,$password,$nom,$prenom,$ancienneteEchelon,$ancienneteConference,$echelon,$activite,$tachesAdmin,$issha1=false){
+		function __construct($num,$nom,$prenom,$ancienneteEchelon,$ancienneteEnseignement,$echelon,$recherche,$enseignement,$tachesAdmin,$visibilte){
 			$this->num=$num;
-			$this->login=$login;
-			if(!$issha1){
-				$this->password=sha512($password);
-			}
-			else{
-				$this->password=$password;
-			}
 			$this->nom=$nom;
 			$this->prenom=$prenom;
 			$this->ancienneteEchelon=$ancienneteEchelon;
-			$this->ancienneteConference=$ancienneteConference;
-			$this->activite=$activite;
+			$this->ancienneteEnseignement=$ancienneteEnseignement;
+			$this->recherche=$recherche;
+			$this->enseignement=$enseignement;
 			$this->tachesAdmin=$tachesAdmin;
+			$this->visibilite=$visibilite;
 		}
 		public function getNum(){
 			return($this->num);
@@ -39,22 +33,22 @@
 		public function getAncienneteEchelon(){
 			return($this->ancienneteEchelon);
 		}
-		public function getAncienneteConference(){
-			return($this->ancienneteConference);
+		public function getAncienneteEnseignement(){
+			return($this->ancienneteEnseignement);
 		}
 		public function getEchelon(){
 			return($this->echelon);
 		}
-		public function getActivite(){
-			return($this->activite);
+		public function getEnseignement(){
+			return($this->enseignement);
+		}
+		public function getRecherche(){
+			return($this->recherche);
 		}
 		public function getTaches(){
 			return($this->tachesAdmin);
 		}
-		public function getLogin(){
-			return($this->login);
-		}
-		public function getPassword(){
-			return($this->password);
+		public function getVisibilite(){
+			return($this->visibilte);
 		}
 	}

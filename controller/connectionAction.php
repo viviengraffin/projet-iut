@@ -3,13 +3,16 @@
 	if(!RapporteurPDO::isConnected()){
 		$form=new Form("connection");
 		if($form->isCommitted()){
-			if(RapporteurPDO::connection($_POST["login"],$_POST["password"])){
-				echo "<pre>";
-				var_dump(RapporteurPDO::getConnectedUser());
-				echo "</pre>";
+			if(RapporteurPDO::connection($_POST["login"],$_POST["password"],isset($_POST["souvenir"]))){
+				if(RapporteurPDO::isRoot()){
+					$CONTROLLER->redirect("root");
+				}
+				else{
+					$CONTROLLER->redirect("rapporteur");
+				}
 			}
 			else{
-				echo sha512($_POST["password"])."<br/>";
+				echo sha256($_POST["password"])."<br/>";
 				echo "Mauvais login ou mot de passe";
 			}
 		}
@@ -19,5 +22,5 @@
 	}
 	else{
 		echo "vous êtes déjà connecté";
-		$CONTROLLER["view"]="";
+		$CONTROLLER->changeView();
 	}

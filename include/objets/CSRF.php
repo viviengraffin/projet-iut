@@ -66,9 +66,6 @@
 				$timeout=time()+$timeout;
 			}
 			$tokenObject=new CSRFToken($name,$token,$timeout);
-				echo "<pre>";
-				var_dump($this->tokenTab);
-				echo "</pre>";
 			$this->tokenTab=array_merge($this->tokenTab,array($tokenObject));
 			$this->modifySession($this->tokenTab);
 			return($tokenObject);
@@ -103,7 +100,7 @@
 		}
 		public function useGetToken($name="_csrf"){
 			if(isset($_GET[$name])){
-				$token=$_POST[$name];
+				$token=$_GET[$name];
 				$token=intval($token);
 				$i=0;
 				$good=false;
@@ -183,7 +180,7 @@
 		public function getHiddenInput(){
 			return("<input type='hidden' name='".$this->name."' value='".$this->token."'>");
 		}
-		public function getVar(){
+		public function getStringUrl(){
 			return($this->name."=".$this->token);
 		}
 		public function useOneTime(){

@@ -2,4 +2,5 @@
 	if(RapporteurPDO::isConnected()){
 		RapporteurPDO::disconnect();
 	}
-	$CONTROLLER["redirect"]="./";
+	getCsrfObject()->clearAllTokens();
+	$CONTROLLER->redirect();

@@ -8,14 +8,13 @@
 		private $dateNaiss;
 		private $mail;
 		
-		function __construct($nom,$prenom,$login,$password,$dateNaiss,$mail,$issha1=false){
+		function __construct($nom,$prenom,$login,$password,$mail,$issha1=false){
 			$this->nom=$nom;
 			$this->prenom=$prenom;
 			$this->login=$login;
-			$this->dateNaiss=$dateNaiss;
 			$this->mail=$mail;
 			if(!$issha1){
-				$this->password=sha512($password);
+				$this->password=sha256($password);
 			}
 			else{
 				$this->password=$password;
@@ -26,7 +25,7 @@
 		}
 		public function setPassword($password,$issha=false){
 			if(!$issha){
-				$password=sha512($password);
+				$password=sha256($password);
 			}
 			$this->password=$password;
 		}
@@ -46,7 +45,7 @@
 			return($this->password);
 		}
 		public function getTab(){
-			return(array("nom"=>$this->nom,"prenom"=>$this->prenom,"login"=>$this->login,"password"=>$this->password,"mail"=>$this->mail,"dateNaiss"=>$this->dateNaiss["year"]."-".$this->dateNaiss["month"]."-".$this->dateNaiss["day"]));
+			return(array("nom"=>$this->nom,"prenom"=>$this->prenom,"login"=>$this->login,"password"=>$this->password,"mail"=>$this->mail));
 		}
 		public function getDateNaiss(){
 			return($this->dateNaiss);

@@ -18,4 +18,7 @@
 		public function getDossier(){
 			return($this->dossier);
 		}
+		public function getTab(){
+			return(array(""));
+		}
 	}

@@ -1,2 +1,2 @@
 <?php
-	$CONTROLLER["state"]=404;
+	$CONTROLLER->changeState(404);

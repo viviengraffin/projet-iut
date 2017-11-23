@@ -127,14 +127,18 @@
 			}
 		}
 		private function load($c,$v,$d=array()){
+		/*
 			$CONTROLLER=array();
 			$CONTROLLER["name"]=$c;
 			$CONTROLLER["view"]=$v;
 			$CONTROLLER["method"]=$_SERVER["REQUEST_METHOD"];
 			$CONTROLLER["url"]=$_SERVER["REQUEST_URI"];
 			$CONTROLLER["state"]=200;
+			*/
+			$CONTROLLER=new Controller($c,$v);
 			if(file_exists(get_controller_address($c))){
 				include(get_controller_address($c));
+				/*
 				if(isset($CONTROLLER["changeDo"])){
 					$this->loadDo($CONTROLLER["changeDo"]);
 				}
@@ -151,6 +155,29 @@
 						}
 						if($CONTROLLER["view"]!=""){
 							include(get_view_address($CONTROLLER["view"]));
+						}
+					}
+				}
+				*/
+				if($CONTROLLER->getDefault()){
+					$this->load($this->defaultController,$this->defaultView);
+				}
+				else if($CONTROLLER->hasPdf()){
+					$pdfloadedframe=$CONTROLLER->getPdf();
+					$var=get_defined_vars();
+					unset($var["pdfloadedframe"]);
+					$pdfloadedframe->output($var,$CONTROLLER->getFilenamePdf());
+				}
+				else{
+					if($CONTROLLER->hasRedirectAddress()){
+						header("location: ".$CONTROLLER->getRedirectAddress());
+					}
+					else{
+						if($CONTROLLER->getState()!=200){
+							header("HTTP/1.0 ".$CONTROLLER->getState()." ".$this->get_text_state($CONTROLLER->getState()));
+						}
+						if($CONTROLLER->hasView()){
+							include($CONTROLLER->getView());
 						}
 					}
 				}
