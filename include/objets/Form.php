@@ -40,6 +40,9 @@
 			$method="get";
 			while(($i<$length)&&($ret)){
 				$b=$balises[$i];
+				echo "<pre>";
+				var_dump($b);
+				echo "</pre>";
 				if($b->getBalise()=="form"){
 					if(strtolower($b->get("method"))=="post"){
 						$ret=$csrf->usePostToken();
@@ -56,8 +59,17 @@
 							$ret=$this->verifyFile($b);
 						}
 						else if($b->get("type")=="number"){
-							$ret=$this->verifyNumber($b);
+							$ret=$this->verifyNumber($b,$method);
 						}
+						else if(($b->get("type")=="text")&&($b->has("pregmatch"))){
+							$res=preg_match($b->get("pregmatch"),$this->get($method,$b->get("name")));
+							if($res!==1){
+								$ret=false;
+							}
+						}
+					}
+					else if($b->getBalise()=="select"){
+						$ret=$this->verifySelect($b,$method);
 					}
 					else{
 						if(($b->has("required"))&&($this->get($method,$b->get("name"))=="")){
@@ -68,11 +80,58 @@
 				else{
 					$ret=false;
 				}
+				echo "<pre>";
+				var_dump($ret);
+				echo "</pre>";
 				$i++;
 			}
 			return($ret);
 		}
-		private function verifyNumber($b){
+		private function verifySelect($b,$method){
+			$ret=true;
+			$value=$this->get($method,$b->get("name"));
+			if($value!=""){
+				if($b->has("type")){
+					if($b->get("type")=="number"){
+						$ret=$this->verifyNumber($b,$method);
+					}
+					else if($b->get("type")!="text"){
+						$ret=false;
+					}
+				}
+				else if($b->has("pregmatch")){
+					$res=preg_match($b->get("pregmatch"),$value);
+					if($res!==1){
+						$ret=false;
+					}
+				}
+				else if(!$b->hasChild()){
+					$ret=false;
+				}
+				else{
+					$good=false;
+					while(($child=$b->fetchChilds())&&(!$good)){
+						if($value==$this->getOptionValue($child)){
+							$good=true;
+						}
+					}
+					$ret=$good;
+				}
+			}
+			else if($b->has("required")){
+				$ret=false;
+			}
+			return($ret);
+		}
+		private function getOptionValue($o){
+			if($o->has("value")){
+				return($o->get("value"));
+			}
+			else{
+				return($o->get("label"));
+			}
+		}
+		private function verifyNumber($b,$method){
 			$ret=true;
 			$value=$this->get($method,$b->get("name"));
 			if($value!=""){
@@ -161,11 +220,12 @@
 							$goodOptionLabel=false;
 							while(!$goodOptionLabel){
 								$chOption=substr($line,$k,1);
-								if($chOption==$seb){
+								if($chOption==">"){
 									$goodOptionLabel=true;
 								}
 								else{
 									$strOptionLabel=$chOption.$strOptionLabel;
+									$k--;
 								}
 							}
 							$lastOption->set("label",$strOptionLabel);
@@ -203,8 +263,13 @@
 						}
 						else if($a->getBalise()=="/option"){
 							$onOption=false;
-							$res[count($res)-1]->addChild($last);
-							unset($last);
+							if(($lastOption->has("value"))&&(substr($lastOption->get("value"),0,3)=="<?=")){
+								
+							}
+							else{
+								$res[count($res)-1]->addChild($lastOption);
+							}
+							unset($lastOptionLabel);
 						}
 						else if(!(($a->getBalise()=="input")&&(($a->get("type")=="submit")||($a->get("type")=="reset")))){
 							while(($k<$blength)&&(!$good2)){
@@ -314,7 +379,10 @@
 		public function addChild($element){
 			$this->childs=array_merge($this->childs,array($element));
 		}
-		public function fetchChild(){
+		public function hasChild(){
+			return(count($this->childs)>0);
+		}
+		public function fetchChilds(){
 			$length=count($this->childs);
 			if($this->i>=$length){
 				return(false);

@@ -33,4 +33,8 @@
 	
 	$mvc->state("testPDF","testPDF");
 	
+	$mvc->state("addDossier","addDossier","addDossier");
+	
+	$mvc->state("addDossierAction","addDossierAction");
+	
 	$mvc->start();

@@ -9,8 +9,10 @@
 		private $recherche;
 		private $enseignement;
 		private $tachesAdmin;
+		private $rapporteur1;
+		private $rapporteur2;
 		
-		function __construct($num,$nom,$prenom,$ancienneteEchelon,$ancienneteEnseignement,$echelon,$recherche,$enseignement,$tachesAdmin,$visibilte){
+		function __construct($num,$nom,$prenom,$ancienneteEchelon,$ancienneteEnseignement,$echelon,$recherche,$enseignement,$tachesAdmin,$visibilte,$rapporteur1,$rapporteur2){
 			$this->num=$num;
 			$this->nom=$nom;
 			$this->prenom=$prenom;
@@ -20,6 +22,8 @@
 			$this->enseignement=$enseignement;
 			$this->tachesAdmin=$tachesAdmin;
 			$this->visibilite=$visibilite;
+			$this->rapporteur1=$rapporteur1;
+			$this->rapporteur2=$rapporteur2;
 		}
 		public function getNum(){
 			return($this->num);
@@ -50,5 +54,11 @@
 		}
 		public function getVisibilite(){
 			return($this->visibilte);
+		}
+		public function getRapporteur1(){
+			return($this->rapporteur1);
+		}
+		public function getRapporteur2(){
+			return($this->rapporteur2);
 		}
 	}

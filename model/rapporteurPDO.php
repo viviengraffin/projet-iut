@@ -213,6 +213,14 @@
 				return(false);
 			}
 		}
+		public static function isRapporteur(){
+			if(RapporteurPDO::isConnected()){
+				return(RapporteurPDO::getConnectedUser()->getLogin()!="root");
+			}
+			else{
+				return(false);
+			}
+		}
 		private static function setCookie($login,$password){
 			Cookie::set(RapporteurPDO::$connectName,$login."----".RapporteurPDO::hash($password)."----".RapporteurPDO::getSecurityHash(),RapporteurPDO::$cookieTime);
 		}

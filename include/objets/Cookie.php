@@ -114,7 +114,7 @@
 			Cookie::$file=$file;
 		}
 		private static function getNewKey($keylength){
-			$key=utf8_encode(openssl_random_pseudo_bytes($keylength));
+			$key=bin2hex(openssl_random_pseudo_bytes($keylength/2));
 			return($key);
 		}
 		public static function httponly($set=true,$modify=true){
