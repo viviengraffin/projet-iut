@@ -1,6 +1,7 @@
 <?php
 	class Form{
 		private $filename;
+		private $data;
 		
 		function __construct($filename){
 			$filename="form/".$filename.".php";
@@ -10,16 +11,15 @@
 			else{
 				throw new Exception("Ce fichier n'existe pas");
 			}
+			$this->data=array();
 		}
-		public function print($data=array(),$he=true){
+		public function print(){
+			$data=$this->data;
 			$idata=0;
 			$ldata=count($data);
 			$dataname=array_keys($data);
 			$datavalue=array_values($data);
 			while($idata<$ldata){
-				if(($he)&&(gettype($datavalue[$idata])=="string")){
-					$datavalue[$idata]=htmlentities($datavalue[$idata]);
-				}
 				eval('$'.$dataname[$idata].'=$datavalue[$idata];');
 				$idata++;
 			}
@@ -30,6 +30,9 @@
 			unset($he);
 			unset($data);
 			include($this->filename);
+		}
+		public function setData($data){
+			$this->data=$data;
 		}
 		public function isCommitted(){
 			$balises=$this->searchBalise();
@@ -80,9 +83,6 @@
 				else{
 					$ret=false;
 				}
-				echo "<pre>";
-				var_dump($ret);
-				echo "</pre>";
 				$i++;
 			}
 			return($ret);

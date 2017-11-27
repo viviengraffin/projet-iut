@@ -1,5 +1,5 @@
 <?php
-	if(RapporteurPDO::isRapporteur()){
+	if(RapporteurPDO::isRoot()){
 		$res=RapporteurPDO::getList();
 		$rapporteurs=array();
 		$connected=RapporteurPDO::getConnectedUser();
