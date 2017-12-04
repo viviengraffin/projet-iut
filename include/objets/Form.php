@@ -13,7 +13,7 @@
 			}
 			$this->data=array();
 		}
-		public function print(){
+		public function display(){
 			$data=$this->data;
 			$idata=0;
 			$ldata=count($data);

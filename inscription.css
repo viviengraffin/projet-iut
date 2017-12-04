@@ -1,0 +1,18 @@
+h2{
+	color: black;
+	border: solid;
+	border-bottom-width:50;
+	border-radius: 20px;
+        padding: 5px;
+	text-align: center;
+        margin-left: 20%;
+        margin-right:20%;
+       
+
+	}
+label{ width: 150px;}
+
+
+.title{ bgcolor: blue;}
+
+
