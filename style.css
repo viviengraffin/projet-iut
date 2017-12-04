@@ -1,0 +1,33 @@
+div.header{
+	background-color:purple;
+	margin-top:-8px;
+	margin-left:-8px;
+	margin-right:-8px;
+}
+div.header-title{
+	text-align:center;
+	font-weight:bold;
+	font-size:32px;
+	font-family:Arial;
+	color:white;
+}
+div.header-menu{
+	color:white;
+	text-align:center;
+}
+li.header-menu{
+	display:inline;
+	border:solid;
+	padding:0;
+	border-width:1px;
+}
+a.header-menu{
+	text-decoration:none;
+	color:white;
+	font-weight:normal;
+	font-family:Arial;
+}
+a.header-menu:hover{
+	text-decoration:underline;
+	color:black;
+}
