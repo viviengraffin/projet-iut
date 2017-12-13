@@ -23,6 +23,19 @@
 				return(false);
 			}
 		}
+		public static function sendRecoveryMail($user,$mail){
+			if($user->getMail()==$mail){
+				$send=new Mail(true);
+				ob_clean();
+				load_view("",[]);
+				$message=ob_get_clean();
+				$send->message();
+				return(true);
+			}
+			else{
+				return(false);
+			}
+		}
 		private static function connectionCookie($login,$password){
 			$pdo=db::getInstance();
 			$req="

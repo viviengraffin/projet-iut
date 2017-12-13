@@ -4,9 +4,10 @@
 <div class="title">
 
 <div align=center>
+<br/>
 <h2> Inscription</h2>
-
-<br><br><br><br><br>
+<span class="Grey">Veuillez remplir les cases ci-dessous :</span>
+<br><br/>
 
 
 

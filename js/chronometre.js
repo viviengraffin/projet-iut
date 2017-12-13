@@ -48,13 +48,14 @@ chronometre.init=function(){
 			}
 			var p=chronometre.getPourcent(chrono)
 			var res=chrono.style.replace("$m",minut)
-			res=res.replace("$s",second)
-			res=res.replace("$M",chronometre.get0time(minut))
-			res=res.replace("$S",chronometre.get0time(second))
+			console.dir(res.replace("$mdef"))
 			res=res.replace("$mdef",chrono.defaultMinut)
 			res=res.replace("$sdef",chrono.defaultSecond)
 			res=res.replace("$Sdef",chrono.tcdefSecond)
 			res=res.replace("$Mdef",chrono.tcdefMinut)
+			res=res.replace("$s",second)
+			res=res.replace("$M",chronometre.get0time(minut))
+			res=res.replace("$S",chronometre.get0time(second))
 			res=res.replace("$p",p)
 			res=res.replace("$P",chronometre.get0time(p))
 			chrono.html.innerText=res

@@ -1,7 +1,6 @@
 <?php
 	
 	if(!RapporteurPDO::isConnected()){
-		echo $_SERVER["HTTP_HOST"];
 		$form=new Form("connection");
 	}
 	else{

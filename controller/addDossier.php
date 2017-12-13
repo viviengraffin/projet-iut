@@ -9,6 +9,7 @@
 			}
 		}
 		$form=new Form("dossier");
+		$form->setData(array("rapporteurs"=>$rapporteurs));
 	}
 	else{
 		$CONTROLLER->changeView();

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Erreur 404</title>
+		<title>Compte <?= $compte->getLogin(); ?></title>
+		<link rel="stylesheet" href="style.css">
 		<meta charset="UTF-8">
-		<style>
-			h1{
-				color:red;
-			}
-		</style>
 	</head>
 	<body>
 		<?php load_view("header"); ?>
-		<h1>Erreur 404</h1>
-		La page <?= $CONTROLLER->getUrl(); ?> n'existe pas.
+		<a href="changePassword">Changer le mot de passe</a>
 		<?php load_view("footer"); ?>
 	</body>
 </html>

@@ -43,9 +43,6 @@
 			$method="get";
 			while(($i<$length)&&($ret)){
 				$b=$balises[$i];
-				echo "<pre>";
-				var_dump($b);
-				echo "</pre>";
 				if($b->getBalise()=="form"){
 					if(strtolower($b->get("method"))=="post"){
 						$ret=$csrf->usePostToken();
@@ -64,11 +61,8 @@
 						else if($b->get("type")=="number"){
 							$ret=$this->verifyNumber($b,$method);
 						}
-						else if(($b->get("type")=="text")&&($b->has("pregmatch"))){
-							$res=preg_match($b->get("pregmatch"),$this->get($method,$b->get("name")));
-							if($res!==1){
-								$ret=false;
-							}
+						else if($b->get("type")=="text"){
+							$ret=$this->verifyText($b,$method);
 						}
 					}
 					else if($b->getBalise()=="select"){
@@ -84,6 +78,22 @@
 					$ret=false;
 				}
 				$i++;
+			}
+			return($ret);
+		}
+		private function verifyText($b,$method){
+			$ret=true;
+			$value=$this->get($method,$b->get("name"));
+			if($b->has("size")){
+				if(strlen($value)>$b->get("size")){
+					$ret=false;
+				}
+			}
+			if($b->has("pregmatch")){
+				$res=preg_match($b->get("pregmatch"),$value);
+				if($res===0){
+					$ret=false;
+				}
 			}
 			return($ret);
 		}

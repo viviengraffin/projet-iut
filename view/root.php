@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Espace de gestion</title>
+		<link rel="stylesheet" href="style.css">
 		<meta charset="UTF-8">
 	</head>
 	<body>
@@ -17,5 +18,6 @@
 				<?php
 			}
 		?>
+		<?php load_view("footer"); ?>
 	</body>
 </html>

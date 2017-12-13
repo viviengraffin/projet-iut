@@ -4,10 +4,11 @@
 	</div>
 	<div class="header-menu">
 		<ul>
-			<li class="header-menu"><a href="inscription" class="header-menu">Inscription</a></li>
-			<li class="header-menu"><a href="ajoutRapporteur" class="header-menu">Ajout de rapporteur</a></li>
-			<li class="header-menu"><a href="addDossier" class="header-menu">Ajout de dossier</a></li>
-			<li class="header-menu"><a href="disconnect" class="header-menu">Déconnexion</a></li>
+			<li><a href="inscription">Inscription</a></li>
+			<li><a href="addDossier">Ajout de dossier</a></li>
+			<li><a href="admin">Espace Administration</a></li>
+			<li><a href="account">Compte</a></li>
+			<li><a href="disconnect">Déconnexion</a></li>
 		</ul>
 	</div>
 </div>

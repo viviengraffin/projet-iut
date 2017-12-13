@@ -35,6 +35,12 @@
 	
 	$mvc->state("adminAction","adminAction");
 	
+	$mvc->state("account","account","account");
+	
+	$mvc->state("forgetpass","forgetpass","forgetpass");
+	
+	$mvc->state("note","note","note");
+	
 	$mvc->dstate("error404","error404");
 	
 	$mvc->start();

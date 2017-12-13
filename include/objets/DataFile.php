@@ -7,7 +7,7 @@
 		
 		
 		function __construct($filename){
-			$this->filename=dirname(__FILE__)."/../../".$filename.".conf";
+			$this->filename=getcwd()."/".$filename.".conf";
 			$this->modified=array();
 			if($this->isReadable()){
 				$this->data=unserialize($this->read());
@@ -16,14 +16,16 @@
 				$this->data=array();
 			}
 			else{
-				throw new DataFileReadException("Vous n'avez pas le droit de lire ce fichier.");
+				throw new DataFileReadException("Vous n'avez pas le droit de lire ce fichier.",$this->filename);
 			}
 		}
 		public function set($name,$value,$setNow=false){
 			if($setNow){
 				$data=$this->data;
 				$data[$name]=$value;
-				$this->modify($data);
+				if(!$this->modify($data)){
+					throw new DataFileWriteException("Vous n'avez pas le droit d'écrire dans ce fichier",$data,$this->filename);
+				}
 			}
 			else{
 				if(!$this->ismodified){
@@ -47,7 +49,9 @@
 			if($setNow){
 				$data=$this->data;
 				unset($data[$name]);
-				$this->modify($data);
+				if(!$this->modify($data)){
+					throw new DataFileWriteException("Vous n'avez pas la permission d'écrire dans ce fichier",$data,$this->filename);
+				}
 			}
 			else{
 				if(!$this->ismodified){
@@ -77,7 +81,7 @@
 		}
 		public function update(){
 			if(!$this->modify($this->modified)){
-				throw new DataFileWriteException("Vous n'avez pas la permission d'écrire dans ce fichier.",$this->data);
+				throw new DataFileWriteException("Vous n'avez pas la permission d'écrire dans ce fichier.",$this->modified,$this->filename);
 			}
 			else{
 				$this->data=$this->modified;
@@ -123,7 +127,15 @@
 	}
 	
 	class DataFileException extends Exception{
+		private $filename;
 		
+		function __construct($msg,$file){
+			parent::__construct($msg);
+			$this->filename=$file;
+		}
+		public function getFilename(){
+			return($this->filename);
+		}
 	}
 	class DataFileReadException extends DataFileException{
 		
@@ -131,11 +143,11 @@
 	class DataFileWriteException extends DataFileException{
 		private $txtData;
 	
-		function __construct($msg,$data){
-			parent::__construct($msg);
+		function __construct($msg,$data,$file){
+			parent::__construct($msg,$file);
 			$this->txtData=serialize($data);
 		}
-		public function getText(){
+		public function getContent(){
 			return(htmlentities($this->txtData));
 		}
 	}

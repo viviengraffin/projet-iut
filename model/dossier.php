@@ -25,6 +25,13 @@
 			$this->rapporteur1=$rapporteur1;
 			$this->rapporteur2=$rapporteur2;
 		}
+		function __construct($nom,$prenom,$ancienneteEchelon,$ancienneteEnseignement,$echelon){
+			$this->nom=$nom;
+			$this->prenom=$prenom;
+			$this->ancienneteEchelon=$ancienneteEchelon;
+			$this->ancienneteEnseigement=$ancienneteEnseignement;
+			$this->echelon=$echelon;
+		}
 		public function getNum(){
 			return($this->num);
 		}
