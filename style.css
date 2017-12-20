@@ -12,6 +12,11 @@
     font-style: normal;
 }
 
+body{
+    text-align: center;
+    font-family: Arial;
+}
+
 @font-face
 {
     font-family: 'Dayrom';
