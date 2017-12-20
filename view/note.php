@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<head>
-		<?php load_view("header"); ?>
+		<?php load_view("header-user"); ?>
 		<table border="1">
 			<tr>
 				<td>

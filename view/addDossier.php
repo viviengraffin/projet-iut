@@ -8,7 +8,7 @@
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<?php load_view("header"); ?>
+		<?php load_view("header-root"); ?>
 		<h2>Ajout de dossier</h2>
 		<?= $form->display(); ?>
 		<?php load_view("footer"); ?>

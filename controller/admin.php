@@ -18,3 +18,6 @@
 			"second"=>$second
 		]);
 	}
+	else{
+		$CONTROLLER->view();
+	}

@@ -4,7 +4,7 @@
 	load_model("rapporteur");
 	load_model("rapporteurPDO");
 	
-	Cookie::setConfigFile("key",4096);
+	Cookie::setConfigFile("key",4096,"saveError");
 	Cookie::httponly();
 	
 	$mvc->state("index","index","index");
@@ -33,6 +33,8 @@
 	
 	$mvc->state("admin","admin","admin");
 	
+	$mvc->state("rapporteur","rapporteur","rapporteur");
+	
 	$mvc->state("adminAction","adminAction");
 	
 	$mvc->state("account","account","account");
@@ -40,6 +42,8 @@
 	$mvc->state("forgetpass","forgetpass","forgetpass");
 	
 	$mvc->state("note","note","note");
+	
+	$mvc->state("vote","vote");
 	
 	$mvc->dstate("error404","error404");
 	

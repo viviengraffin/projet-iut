@@ -98,14 +98,48 @@
 				Cookie::$file->set("prefix",$prefix);
 			}
 		}
-		public static function setConfigFile($filename,$keylength=512){
+		public static function setConfigFile($filename,$keylength=512,$errorController=null,$errorView=null){
+			$loadViewInError=false;
+			$loadControllerInError=false;
+			if(isset($errorController)){
+				if(isset($errorView)){
+					$loadControllerInError=true;
+					$loadViewInError=true;
+				}
+				else{
+					if(file_exists(get_controller_address($errorController))){
+						$loadControllerInError=true;
+					}
+					else{
+						$loadViewInError=true;
+						$errorView=$errorController;
+						$errorController=null;
+					}
+				}
+			}
 			$file=new DataFile($filename);
 			$res=$file->getAll();
 			if(!((isset($res["key"]))&&(isset($res["iv"]))&&(isset($res["prefix"])))){
 				$file->set("key",Cookie::getNewKey($keylength));
 				$file->set("iv",Cookie::getNewKey(self::$ivbytes[self::$method]));
 				$file->set("prefix",Cookie::getNewKey(4));
-				$file->update();
+				try{
+					$file->update();
+				}
+				catch(DataFileWriteException $e){
+					$content=$e->getContent();
+					$filename=$e->getFilename();
+					if($loadControllerInError){
+						include(get_controller_address($errorController));
+						if($loadViewInError){
+							include(get_view_address($errorView));
+						}
+					}
+					else{
+						include(get_view_address($errorView));
+					}
+					die();
+				}
 				$res=$file->getAll();
 			}
 			Cookie::$key=$res["key"];

@@ -133,8 +133,10 @@ nav a:hover
     height: 200px;
     position: relative;
     right: 5px; 
-    background: url('images/fond_degraderouge.png') repeat-x;
-    border: 1px solid #760001;
+ /*   background: url('images/fond_degraderouge.png') repeat-x; */
+ 	background-color: purple;
+ /*    border: 1px solid #760001; */
+ 	 border: 1px solid purple;
     border-radius: 5px;
     /*font-size: 2em; */
     text-align: center;

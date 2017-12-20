@@ -1,4 +1,4 @@
-<form action="vote.php" method="post">
+<form action="inscriptionAction" method="post">
 
 
 <div class="title">
@@ -11,16 +11,16 @@
 
 
 
-<label for="id">Identifiant  * :&nbsp &nbsp &nbsp &nbsp &nbsp</label><input type="texte" name="identifiant" id="id"><br><br>
+<label for="id">Identifiant  * :&nbsp &nbsp &nbsp &nbsp &nbsp</label><input type="texte" name="login" id="id"><br><br>
 
- <label for="mdp">Mot de passe *: &nbsp &nbsp &nbsp</label><input type="password" name="motdpasse" id="mdp"><br><br>
- <label for="confirmer">Confirmer *: &nbsp &nbsp &nbsp &nbsp <input type="password" name="confirmer" id="confirmer"><br><br>
+ <label for="mdp">Mot de passe *: &nbsp &nbsp &nbsp</label><input type="password" name="password1" id="mdp"><br><br>
+ <label for="confirmer">Confirmer *: &nbsp &nbsp &nbsp &nbsp <input type="password" name="password2" id="confirmer"><br><br>
 
-<label for="prénom">Prénom *:</label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="texte" name="prénom" id="prénom"><br><br>
+<label for="prénom">Prénom *:</label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="texte" name="prenom" id="prénom"><br><br>
 
  <label for="nom">Nom *:</label> &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp <input type="texte" name="nom" id="nom"><br><br>
 
-<label for="adresse">Adresse mail *</label> :&nbsp &nbsp <input type="texte" name="adressemail" id="adresse" ><br><br>
+<label for="adresse">Adresse mail *</label> :&nbsp &nbsp <input type="texte" name="mail" id="adresse" ><br><br>
 
 <?= getCsrfObject()->addToken(true)->getHiddenInput(); ?>
  <br>

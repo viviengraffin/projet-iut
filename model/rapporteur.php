@@ -5,7 +5,6 @@
 		private $prenom;
 		private $login;
 		private $password;
-		private $dateNaiss;
 		private $mail;
 		
 		function __construct($nom,$prenom,$login,$password,$mail,$issha1=false){
@@ -46,9 +45,6 @@
 		}
 		public function getTab(){
 			return(array("nom"=>$this->nom,"prenom"=>$this->prenom,"login"=>$this->login,"password"=>$this->password,"mail"=>$this->mail));
-		}
-		public function getDateNaiss(){
-			return($this->dateNaiss);
 		}
 		public function getMail(){
 			return($this->mail);

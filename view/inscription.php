@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="inscription.css" />
 </head>
 <body bgcolor="white">
-<?php load_view("header"); ?>
+<?php load_view("header-root"); ?>
 
 <?= $form->display(); ?>
 

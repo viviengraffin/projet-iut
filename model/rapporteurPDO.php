@@ -11,6 +11,8 @@
 				WHERE login=?
 			";
 			$res=$pdo->request($req,array($rapporteur->getLogin()))->fetch()["COUNT(*)"];
+			echo "<pre>";
+			var_dump($res);
 			if($res==0){
 				$req="
 					INSERT INTO rapporteur(nom,prenom,login,password,addr_mail)
@@ -29,7 +31,7 @@
 				ob_clean();
 				load_view("",[]);
 				$message=ob_get_clean();
-				$send->message();
+				$send->message($message);
 				return(true);
 			}
 			else{

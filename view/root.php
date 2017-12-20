@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<?php load_view("header"); ?>
+		<?php load_view("header-root"); ?>
 		<a href="changePassword">Changer de mot de passe</a><br/>
 		<a href="inscription">Ajouter des rapporteurs</a><br/>
 		<a href="disconnect">Déconnexion</a><br/>

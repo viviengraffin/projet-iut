@@ -1,0 +1,9 @@
+<?php
+	if(RapporteurPDO::isConnected()){
+		if(!RapporteurPDO::isRapporteur()){
+			$CONTROLLER->redirect("root");
+		}
+	}
+	else{
+		$CONTROLLER->setView();
+	}

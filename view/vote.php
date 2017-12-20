@@ -111,7 +111,7 @@
 <div align="center">
 <input  type="submit" name="confirmer" value="confirmer" >
 </div>
-<script src="chronometre.js"></script>
+<script src="js/chronometre.js"></script>
 <div align="right">
 <script>
 	var checkboxs=document.querySelectorAll("input[type=checkbox]")
