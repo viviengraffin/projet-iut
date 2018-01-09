@@ -228,7 +228,7 @@
 							$k=$j-1;
 							$strOptionLabel="";
 							$goodOptionLabel=false;
-							while(!$goodOptionLabel){
+							while((!$goodOptionLabel)&&($k>=0)){
 								$chOption=substr($line,$k,1);
 								if($chOption==">"){
 									$goodOptionLabel=true;
@@ -238,7 +238,9 @@
 									$k--;
 								}
 							}
-							$lastOption->set("label",$strOptionLabel);
+							if($goodOptionLabel){
+								$lastOption->set("label",$strOptionLabel);
+							}
 						}
 						$str="";
 						$good=false;

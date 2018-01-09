@@ -7,8 +7,8 @@
 	<label>Adresse Suite</label> <input type="text" name="suite"><br/>
 	<label>Ville</label> <input type="text" name="ville"><br/>
 	<label>Code Postal</label> <input type="number" name="cp" size="5"><br/>
-	<label>Ancienneté dans le corps de conférence</label> <input type="number" name="ancConf"><br/>
-	<label>Échelon</label> <input type="text" name="echelon"><br/>
+	<label>Ancienneté dans le corps de conférence</label> <input type="number" name="ancEnseign"><br/>
+	<label>Échelon</label> <input type="text" name="tachesAdmin"><br/>
 	<label>Ancienneté dans l'échelon</label> <input type="number" name="ancEchelon" min="0"><br/>
 	<label>Premier rapporteur</label> <input name="rapp1" type="text" list="rapporteurs"><br/>
 	<label>Deuxième rapporteur</label> <input type="text" name="rapp2" list="rapporteurs"><br/>
@@ -16,7 +16,7 @@
 		<?php
 			foreach($rapporteurs as $rapporteur){
 				?>
-				<option value="<?= $rapporteur->getPrenom()." ".$rapporteur->getNom(); ?>">
+				<option value="<?= $rapporteur->getPrenom()." ".$rapporteur->getNom(). " (".$rapporteur->getLogin().")"; ?>">
 				<?php
 			}
 		?>

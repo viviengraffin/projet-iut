@@ -38,6 +38,98 @@
 				return(false);
 			}
 		}
+		/*
+		public static function getUserWithName($username){
+			$usernames=self::getTableOfName($username);
+			$req="
+				SELECT COUNT(*)
+				FROM rapporteur
+				WHERE prenom=?
+				AND nom=?
+			";
+			$good=false;
+			$length=count($usernames);
+			$pdo=db::getInstance();
+			while(($i<$length)&&(!$good)){
+				$res=$pdo->request($req,$usernames[$i]);
+				if($res["COUNT(*)"]>0){
+					$req="
+						SELECT *
+						FROM rapporteur
+						WHERE prenom=?
+						AND nom=?
+					";
+					$res=$pdo->request($req,$usernames[$i])->fetch();
+					
+				}
+				$i++;
+			}
+		}
+		private static function getTableOfName($username){
+			$words=explode(" ",$username);
+			$i=1;
+			$length=count($words);
+			$res=array($username);
+			$good=false;
+			$j=0;
+			$lastBinString="";
+			while($j<$length){
+				$lastBinString="1".$lastBinString;
+				$j++;
+			}
+			unset($j);
+			while($good){
+				$binString=self::setStringLength(decbin($i),$length);
+				if($binString==$lastBinString){
+					$good=true;
+				}
+				else{
+					$j=1;
+					$r=array($words[0],"");
+					$isR0=true;
+					$isgood=false;
+					while($j<$length){
+						if($isR0){
+							if($binString[$j-1]=="1"){
+								$isgood=true;
+								$r[1]=$words[$j];
+							}
+							else{
+								$r[0]=" ".$words[$j];
+							}
+						}
+						else{
+							if($binString[$j-1]=="1"){
+								$isgood=false;
+							}
+							else{
+								$r[1].=" ".$words[$j];
+							}
+						}
+						$j++;
+					}
+					if($isgood){
+						$res=array_merge($res,array($r));
+					}
+				}
+				$i++;
+			}
+		}
+		private static function setStringLength($str,$length){
+			$actualLength=strlen($str);
+			$i=$actualLength-1;
+			if($actualLength<$length){
+				while($i<$length){
+					$str="0".$str;
+					$i++;
+				}
+				return($str);
+			}
+			else{
+				return($str);
+			}
+		}
+		*/
 		private static function connectionCookie($login,$password){
 			$pdo=db::getInstance();
 			$req="
