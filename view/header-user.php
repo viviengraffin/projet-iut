@@ -1,10 +1,15 @@
-            <div id="banniere_image">
-                <div id="banniere_description">
-                  
-                    <a href="Aide.php" class="bouton_rouge"> <img src="images/flecheblanchegauche.png" alt="" /> Guide utilisateur </a>
-				    <a href="vote" class="bouton_rouge"> <img src="https://png.icons8.com/élections/ios7/16/ffffff"> Vote </a>
-				   <a href="resultat" class="bouton_rouge"> <img src="https://png.icons8.com/statistiques/ios7/16/ffffff"> Résultat </a>
-				   <a href="disconnect" class="bouton_rouge"> Déconnexion <img src="images/flecheblanchedroite.png" alt="" /></a>
-		</div>	        
-   </div>       
-   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<div class="container">
+	<br><br><br>
+	<div class="mrapper">
+		<header>
+				<h1> ENSIvote</h1>
+				<h2> faire le vote en pleine securité </h2>
+		</header>
+		<nav>
+			<ul class="main">
+				<li><a href="page vote.html">Vote</a></li>
+				<li><a href="résultat">Résultat</a></li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				<li><a href="déconnexion.html">DECONNEXION</a><img src="logout.png"/></li>
+			</ul>
+		</nav>

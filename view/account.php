@@ -3,6 +3,7 @@
 	<head>
 		<title>Compte <?= $compte->getLogin(); ?></title>
 		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="header.css">
 		<meta charset="UTF-8">
 	</head>
 	<body>

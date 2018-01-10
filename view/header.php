@@ -1,5 +1,7 @@
-            <div id="banniere_image">
-                <div id="banniere_description">
-		</div>
-   </div>  
-   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+ <div class="container">
+	<br><br><br>
+	<div id="mrapper">
+		<header>
+			<h1> ENSIvote</h1>
+			<h2> faire le vote en pleine securité </h2>
+		</header>

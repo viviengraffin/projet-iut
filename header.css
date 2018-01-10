@@ -1,0 +1,63 @@
+h2{
+	font-variant: small-caps;
+	color:#fff;
+	text-align:center;
+}
+div{
+     color:black;
+      
+}
+label{
+	width:50%;
+	margin:auto;
+	text-align:center;
+}
+input{
+	background-color:white;
+	color:black;
+}
+#wmapper{
+	max-width: 960px;
+	margin: 0 auto;
+	background-color:#8A2BE2;
+	padding: 32px;
+}
+
+header {
+	background-color: #8FBC8F ;
+	height: 150px;
+	padding: 4px;
+}
+
+header h1 {
+	text-transform: uppercase;
+	text-align: center;
+	color:#fff;
+	line-height: 50px;
+}
+.main{
+	padding: 5px 0 5px 0;
+	text-align: center;
+	line-height: 32px;
+	background-color: #3a3f46;
+}
+
+ul.main{
+	margin-top: 15px;
+}
+
+.main li {
+	display: inline;
+	padding: 0 10px 0 10px;
+	font-size: 20px;
+}
+.main a{
+	text-decoration: none;
+	color: #fff;
+	padding: 8px;
+	font-variant: small-caps;
+}
+
+.main a:hover{
+	color:#59d5d8;
+}
