@@ -30,15 +30,38 @@
 			$pdo=db::getInstance();
 			$pdo->request($req,$data);
 		}
+		public static function getList($rapp){
+			$req="
+				SELECT *
+				FROM dossier
+				WHERE rapporteur1=:rapp
+				OR rapporteur2=:rapp
+				AND act_recherche=''
+			";
+			$data=array("rapp"=>$rapp->getId());
+			$pdo=db::getInstance();
+			$res=$pdo->request($req,$data);
+			$ret=array();
+			while($ligne=$res->fetch()){
+				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
+				$r->setNum($ligne["num_dossier"]);
+				$ret=array_merge($ret,array($r));
+			}
+			return($ret);
+		}
 		public static function getDossier($id){
 			$req="
 				SELECT *
 				FROM dossier
-				WHERE id=:id
+				WHERE num_dossier=:id
 			";
 			$db=db::getInstance();
 			$res=$db->request($req,array("id"=>$id))->fetch();
-			$ret=new Dossier($res["num_dossier"],$res["nom"],$res["prenom"],$res["anc_echelon"],$res["anc_enseign"],$res["echelon"],$res["act_recherche"],$res["act_enseign"],$res["act_admin"],$res["visibilite"],$res["rapporteur1"],$res["rapporteur2"]);
+			$ret=new Dossier($res["nom"],$res["prenom"],$res["anc_echelon"],$res["anc_enseign"],$res["echelon"],RapporteurPDO::getUser(intval($res["rapporteur1"])),RapporteurPDO::getUser(intval($res["rapporteur2"])));
+			$ret->setNum($res["num_dossier"]);
+			if($res["act_recherche"]!==null){
+				$ret->setNotes($res["act_recherche"],$res["act_enseign"],$res["act_admin"],$res["visibilite"]);
+			}
 			return($ret);
 		}
 		public static function note($rapporteur,$dossier){
