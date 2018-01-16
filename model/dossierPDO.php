@@ -49,6 +49,9 @@
 			}
 			return($ret);
 		}
+		public static function getResult(){
+			
+		}
 		public static function getDossier($id){
 			$req="
 				SELECT *
