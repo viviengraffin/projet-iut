@@ -8,14 +8,19 @@ div{
       
 }
 label{
-	width:50%;
-	margin:auto;
-	text-align:center;
+	width:30%;
+	margin-left:30%;
 }
+label[for]{
+	width:20%;
+	margin-left:0;
+}
+/*
 input{
 	background-color:white;
 	color:black;
 }
+*/
 #wmapper{
 	max-width: 960px;
 	margin: 0 auto;
@@ -49,7 +54,7 @@ ul.main{
 .main li {
 	display: inline;
 	padding: 0 10px 0 10px;
-	font-size: 15px;
+	font-size: 13px;
 }
 table{
 	margin:10px auto auto auto;

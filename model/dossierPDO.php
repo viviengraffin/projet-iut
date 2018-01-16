@@ -68,25 +68,29 @@
 			$req="
 				SELECT *
 				FROM dossier
-				WHERE num=:num
+				WHERE num_dossier=:num
 			";
 			$data=array("num"=>$dossier->getNum());
 			$pdo=db::getInstance();
-			$res=$pdo->request($req,$data);
+			$res=$pdo->request($req,$data)->fetch();
 			$rid=$rapporteur->getId();
+			echo "<pre>";
+			var_dump($res);
+			var_dump($rid);
+			echo "</pre>";
 			if(($res["rapporteur1"]==$rid)||($res["rapporteur2"]==$rid)){
-				if($res["act_recherche"]==""){
+				if(($res["act_recherche"]=="")||($res["act_recherche"]==null)){
 					$req="
 						UPDATE dossier
 						SET act_recherche=:recherche,act_admin=:admin,visibilite=:visibilite,act_enseign=:enseign
-						WHERE num=:num
+						WHERE num_dossier=:num
 					";
 					$data=array(
 						"num"=>$dossier->getNum(),
 						"recherche"=>$dossier->getRecherche(),
 						"admin"=>$dossier->getTaches(),
 						"visibilite"=>$dossier->getVisibilite(),
-						"act_enseign"=>$dossier->getEnseignement()
+						"enseign"=>$dossier->getEnseignement()
 					);
 					$pdo->request($req,$data);
 					return(true);

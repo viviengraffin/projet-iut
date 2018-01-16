@@ -3,5 +3,6 @@
 	<div id="mrapper">
 		<header>
 			<h1> ENSIvote</h1>
-			<h2> faire le vote en pleine securité </h2>
+			<h2> Vote en toute securité </h2>
 		</header>
+<br/><br/><br/>

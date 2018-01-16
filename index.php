@@ -43,6 +43,8 @@
 	
 	$mvc->state("note","note","note");
 	
+	$mvc->state("noteAction","noteAction","noteAction");
+	
 	$mvc->state("vote","vote");
 	
 	$mvc->dstate("error404","error404");

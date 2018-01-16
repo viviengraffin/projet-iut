@@ -16,7 +16,9 @@
 		<?php load_view("header"); ?>
 		<?= $form->display(); ?>
 		<br/><br/>
-		<a href="forgetpass">Mot de passe oublié</a>
+		<div style="text-align:center;">
+			<a href="forgetpass">Mot de passe oublié</a>
+		</div>
 		<?php load_view("footer"); ?>
 	</body>
 </html>

@@ -1,4 +1,4 @@
-<form method="post" action="noteAction">
+<form method="post" action="noteAction?id=<?= $_GET["id"]; ?>">
 	<label>Activité de recherche</label> <select name="recherche">
 		<option>=</option>
 		<option>+</option>
