@@ -5,13 +5,14 @@
 <head>
 	<title> Page vote</title>
 	<link rel="stylesheet" href="vote.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<link rel="stylesheet" href="header.css">
 </head>
 <body>
-
-<BODY>
-<br><br><br>
-
-<h2>Vote éléctronique </h2>
+<?php load_view("header-user"); ?>
 
 
 
@@ -31,79 +32,26 @@
 <TABLE align="center" border="1" width="80%">
        
         <TR>
-            <TD align="center" width="10%">Nom
-            <TD align="center" width="10%">Prénom 
-            <TD align="center" width="10%">Etablisement
-            <TD align="center" width="10%">Note
+            <TD align="center" width="10%">Nom</TD>
+            <TD align="center" width="10%">Prénom</TD>
+            <TD align="center" width="10%">Note</TD>
             <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-            
-
-
-       <TR>
-            <TD align="center" width="10%">Nom
-            <TD align="center" width="10%">Prénom
-            <TD align="center" width="10%">Etblissement
-            <TD align="center" width="10%">Li
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-  
-
-
-            	<TR>
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 2
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-            	<TR>
-            <TD align="center"  width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 2
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-	<TR>
-            <TD align="center"  width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 2
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au
- bouton">
-
-
-
-	<TR>
-            <TD align="center"  width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 2
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-
-
-<TR>
-            <TD align="center"  width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 2
-            <TD align="center" width="10%">Ligne 2, colonne 1
-            <TD align="center" width="10%">Ligne 2, colonne 
-            <TD align="center" width="10%">
-  
- <INPUT type="checkbox" name="nom" value="valeur attachée au bouton">
-
-
-
-
-
-</div>
+			</TD>
+		</TR>
+		<?php
+			foreach($dossiers as $dossier){
+				?>
+				<TR>
+					<TD align="center" width="10%"><?= $dossier->getNom(); ?></TD>
+					<TD align="center" width="10%"><?= $dossier->getPrenom(); ?></TD>
+					<TD align="center" width="10%"><?= $dossier->getNote(); ?></TD>
+					<TD align="center" width="10%">
+						<INPUT type="checkbox" name="dossier<?= $dossier->getNum(); ?>">
+					</TD>
+				</TR>
+				<?php
+			}
+		?>
    </TABLE>
 
 <br><br><br><br><br>
@@ -113,6 +61,7 @@
 </div>
 <script src="js/chronometre.js"></script>
 <div align="right">
+<?php load_view("footer"); ?>
 <script>
 	var checkboxs=document.querySelectorAll("input[type=checkbox]")
 	var compteur=document.querySelector("span#compteur")

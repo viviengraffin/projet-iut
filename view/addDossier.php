@@ -3,7 +3,6 @@
 	<head>
 		<title>Ajout d'un dossier</title>
 		<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="inscription.css">
 		<meta name="viewport" content="width=device-width">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
@@ -18,7 +17,7 @@
 		<?php load_view("header-root"); ?>
 		<h2>Ajout de dossier</h2>
 		<?= $form->display(); ?>
-		<?php load_view("footer"); ?>
+		<!--
 		<script>
 			var form=document.querySelector("form")
 			var inputs=form.querySelectorAll("input,textarea,select")
@@ -30,5 +29,7 @@
 				input.style.left="500px"
 			})
 		</script>
+		-->
+		<?php load_view("footer"); ?>
 	</body>
 </html>

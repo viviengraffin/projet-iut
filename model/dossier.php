@@ -28,6 +28,25 @@
 			$this->tachesAdmin=$tachesAdmin;
 			$this->visibilite=$visibilite;
 		}
+		public function getNote(){
+			$res=$this->getNbPlus($this->recherche);
+			$res+=$this->getNbPlus($this->enseignement);
+			$res+=$this->getNbPlus($this->visibilite);
+			$res+=$this->getNbPlus($this->tachesAdmin);
+			return($res);
+		}
+		private function getNbPlus($str){
+			$i=0;
+			$res=0;
+			$length=strlen($str);
+			while($i<$length){
+				if(substr($str,$i,1)=="+"){
+					$res++;
+				}
+				$i++;
+			}
+			return($res);
+		}
 		public function setNum($num){
 			$this->num=$num;
 		}

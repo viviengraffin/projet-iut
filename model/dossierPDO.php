@@ -30,6 +30,23 @@
 			$pdo=db::getInstance();
 			$pdo->request($req,$data);
 		}
+		public static function getDossierAVote(){
+			$req="
+				SELECT *
+				FROM dossier
+				WHERE act_recherche!=''
+			";
+			$pdo=db::getInstance();
+			$res=$pdo->request($req);
+			$ret=array();
+			while($ligne=$res->fetch()){
+				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
+				$r->setNum($ligne["num_dossier"]);
+				$r->setNotes($ligne["act_recherche"],$ligne["act_enseign"],$ligne["act_admin"],$ligne["visibilite"]);
+				$ret=array_merge($ret,array($r));
+			}
+			return($ret);
+		}
 		public static function getList($rapp){
 			$req="
 				SELECT *
