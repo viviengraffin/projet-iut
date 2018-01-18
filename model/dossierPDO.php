@@ -67,7 +67,20 @@
 			return($ret);
 		}
 		public static function getResult(){
-			
+			$req="
+				SELECT *
+				FROM dossie
+				WHERE etat!=0
+			";
+			$pdo=db::getInstance();
+			$res=$pdo->request($req);
+			$ret=array();
+			while($ligne=$res->fetch()){
+				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"]);
+				$r->setNum($ligne["num_dossier"]);
+				$ret=array_merge($ret,array($r));
+			}
+			return($ret);
 		}
 		public static function getDossier($id){
 			$req="
