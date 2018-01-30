@@ -21,6 +21,9 @@ chronometre.init=function(){
 		chrono.defaultSecond=t[1]
 		chrono.tcdefMinut=chronometre.get0time(chrono.minut)
 		chrono.tcdefSecond=chronometre.get0time(chrono.second)
+		if(html.hasAttribute("finished")){
+			chrono.finished=html.getAttribute("finished")
+		}
 		if(html.hasAttribute("chrono-asc")){
 			chrono.asc=true
 			chrono.minut=0
@@ -79,6 +82,9 @@ chronometre.init=function(){
 					chrono.minut++
 				}
 				else{
+					if(typeof(chrono.finished)!="undefined"){
+						eval(chrono.finished)
+					}
 					clearInterval(chrono.interval)
 					good=false
 				}
@@ -92,6 +98,9 @@ chronometre.init=function(){
 					chrono.second=59
 				}
 				else{
+					if(typeof(chrono.finished)!="undefined"){
+						eval(chrono.finished)
+					}
 					clearInterval(chrono.interval)
 					good=false
 				}

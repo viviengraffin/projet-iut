@@ -17,24 +17,72 @@
 			$pdo=db::getInstance();
 			$pdo->request($req,$data);
 		}
-		public static function vote($rapporteur,$dossier,$tour){
+		public static function isAccepted($dossier){
 			$req="
-				INSERT INTO vote(rapporteur,dossier,tour)
-				VALUES(:rapporteur,:dossier,:tour)
+				SELECT etat
+				FROM dossier
+				WHERE num_dossier=:num
+			";
+			$data=array("num"=>$dossier->getNum());
+			$pdo=db::getInstance();
+			$res=$pdo->request($req,$data)->fetch();
+			return($res["etat"]==1);
+		}
+		public static function vote($rapporteur,$dossier,$tour,$valeur){
+			$req="
+				INSERT INTO vote(rapporteur,dossier,tour,valeur)
+				VALUES(:rapporteur,:dossier,:tour,:valeur)
 			";
 			$data=array(
 				"rapporteur"=>$rapporteur->getId(),
 				"dossier"=>$dossier->getNum(),
-				"tour"=>$tour
+				"tour"=>$tour,
+				"valeur"=>$valeur
 			);
 			$pdo=db::getInstance();
 			$pdo->request($req,$data);
+			if($valeur){
+				$req="
+					UPDATE dossier
+					SET etat=1
+					WHERE dossier=:num
+				";
+			}
+			else{
+				$req="
+					UPDATE dossier
+					SET etat=2
+					WHERE dossier=:num
+				";
+			}
+			$pdo->request($req,array("num"=>$dossier->getNum()));
+		}
+		public static function getNbVotants($dossier){
+			$req="
+				SELECT COUNT(*)
+				FROM vote
+				WHERE dossier=:num
+			";
+			$pdo=db::getInstance();
+			$data=array("num"=>$dossier->getNum());
+			$res=$pdo->request($req,$data)->fetch();
+			return(intval($res["COUNT(*)"]));
+		}
+		public static function getTour($dossier){
+			$req="
+				SELECT MAX(tour)
+				FROM vote
+				WHERE dossier=:num
+			";
+			$pdo=db::getInstance();
+			$data=array("num"=>$dossier->getNum());
+			$res=$pdo->request($req,$data)->fetch();
+			return(intval($res["MAX(tour)"]));
 		}
 		public static function getDossierAVote(){
 			$req="
 				SELECT *
 				FROM dossier
-				WHERE act_recherche!=''
 			";
 			$pdo=db::getInstance();
 			$res=$pdo->request($req);
@@ -43,7 +91,9 @@
 				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
 				$r->setNum($ligne["num_dossier"]);
 				$r->setNotes($ligne["act_recherche"],$ligne["act_enseign"],$ligne["act_admin"],$ligne["visibilite"]);
-				$ret=array_merge($ret,array($r));
+				if($r->getNbVotants()==0){
+					$ret=array_merge($ret,array($r));
+				}
 			}
 			return($ret);
 		}
@@ -53,21 +103,35 @@
 				FROM dossier
 				WHERE rapporteur1=:rapp
 				OR rapporteur2=:rapp
-				AND act_recherche=''
 			";
 			$data=array("rapp"=>$rapp->getId());
 			$pdo=db::getInstance();
 			$res=$pdo->request($req,$data);
 			$ret=array();
 			while($ligne=$res->fetch()){
-				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
-				$r->setNum($ligne["num_dossier"]);
-				$ret=array_merge($ret,array($r));
+				if($ligne["act_recherche"]==""){
+					$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
+					$r->setNum($ligne["num_dossier"]);
+					$ret=array_merge($ret,array($r));
+				}
 			}
 			return($ret);
 		}
 		public static function getResult(){
-			
+			$req="
+				SELECT *
+				FROM dossier
+				WHERE etat!=0
+			";
+			$pdo=db::getInstance();
+			$res=$pdo->request($req);
+			$ret=array();
+			while($ligne=$res->fetch()){
+				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
+					$r->setNum($ligne["num_dossier"]);
+					$ret=array_merge($ret,array($r));
+			}
+			return($ret);
 		}
 		public static function getDossier($id){
 			$req="

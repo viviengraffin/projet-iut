@@ -12,6 +12,9 @@
 		private $tachesAdmin;
 		private $rapporteur1;
 		private $rapporteur2;
+		private $tour;
+		private $nbvotants;
+		private $isAccepted_a;
 		
 		function __construct($nom,$prenom,$ancienneteEchelon,$ancienneteEnseignement,$echelon,$rapporteur1,$rapporteur2){
 			$this->nom=$nom;
@@ -21,6 +24,24 @@
 			$this->echelon=$echelon;
 			$this->rapporteur1=$rapporteur1;
 			$this->rapporteur2=$rapporteur2;
+		}
+		public function getTour(){
+			if(!isset($this->tour)){
+				$this->tour=DossierPDO::getTour($this);
+			}
+			return($this->tour);
+		}
+		public function getNbVotants(){
+			if(!isset($this->nbvotants)){
+				$this->nbvotants=DossierPDO::getNbVotants($this);
+			}
+			return($this->nbvotants);
+		}
+		public function isAccepted(){
+			if(!isset($this->isAccepted_a)){
+				$this->isAccepted_a=DossierPDO::isAccepted($this);
+			}
+			return($this->isAccepted_a);
 		}
 		public function setNotes($recherche,$enseignement,$tachesAdmin,$visibilite){
 			$this->recherche=$recherche;

@@ -17,3 +17,19 @@
 			return(new CSRF());
 		}
 	}
+	
+	function diffTime($a,$b){
+		$sec=$a-$b;
+		$min=0;
+		$good=false;
+		while(!$good){
+			if($sec>=60){
+				$sec-=60;
+				$min++;
+			}
+			else{
+				$good=true;
+			}
+		}
+		return($min."m".$sec."s");
+	}

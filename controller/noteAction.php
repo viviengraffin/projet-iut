@@ -3,11 +3,15 @@
 	load_model("dossierPDO");
 	
 	if(RapporteurPDO::isRapporteur()){
-		$form=new Form("note");
-		if($form->isCommitted()){
-			$dossier=DossierPDO::getDossier($_GET["id"]);
-			$dossier->setNotes($_POST["recherche"],$_POST["enseign"],$_POST["admin"],$_POST["visibilite"]);
-			DossierPDO::note(RapporteurPDO::getConnectedUser(),$dossier);
+		$csrf=getCsrfObject();
+		if($csrf->usePostToken("note")){
+			$ids=explode(";",$_POST["ids"]);
+			foreach($ids as $id){
+				$dossier=DossierPDO::getDossier($id);
+				$dossier->setNotes($_POST["recherche".$id],$_POST["enseign".$id],$_POST["admin".$id],$_POST["visibilite".$id]);
+				DossierPDO::note(RapporteurPDO::getConnectedUser(),$dossier);
+				$CONTROLLER->redirect("vote");
+			}
 		}
 	}
 	else{

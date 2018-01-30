@@ -28,7 +28,7 @@
 		public function hasView(){
 			return($this->view!==null);
 		}
-		public function changeView($view=null){
+		public function setView($view=null){
 			$this->view=$view;
 		}
 		public function getView(){

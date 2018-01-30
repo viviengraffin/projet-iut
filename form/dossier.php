@@ -6,8 +6,8 @@
 	
 	<br/>
 	
-	<label>Ancienneté dans le corps de conférence</label> <input type="number" name="ancConf"><br/>
-	<label>Échelon</label> <input type="text" name="echelon"><br/>
+	<label>Ancienneté dans le corps de conférence</label> <input type="number" name="ancEnseign"><br/>
+	<label>Échelon</label> <input type="text" name="tachesAdmin"><br/>
 	<label>Ancienneté dans l'échelon</label> <input type="number" name="ancEchelon"><br/>
 	<label>Premier rapporteur</label> <input name="rapp1" type="text" list="rapporteurs"><br/>
 	<label>Deuxième rapporteur</label> <input type="text" name="rapp2" list="rapporteurs"><br/><br/><br/><br/>
