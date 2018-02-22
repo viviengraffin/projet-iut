@@ -5,8 +5,7 @@
 			$CONTROLLER->setView("tourAdmin");
 			$form=new Form("tourAdmin");
 			
-			$nbtour=$file->get("nbtour");
-			$tour=$file->get("tour")+1;
+			$tour=$file->get("tour");
 		}
 		else{
 			$form=new Form("admin");

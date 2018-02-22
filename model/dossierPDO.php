@@ -17,6 +17,44 @@
 			$pdo=db::getInstance();
 			$pdo->request($req,$data);
 		}
+		public static function applyVotes($tour,$nbplaces){
+			$db=db::getInstance();
+			
+			$req="
+				SELECT *
+				FROM dossier
+				WHERE etat=0
+				AND act_recherche=''
+			";
+			
+			$dossiers=$db->request($req);
+			
+			$res=array();
+			
+			$req="
+				SELECT COUNT(*)
+				FROM vote
+				WHERE tour=:tour
+			";
+			
+			while($line=$dossiers->fetch()){
+				$res[$line["num_dossier"]]=$db->request($req,array("tour"=>$tour));
+			}
+			
+			if($res!=array()){
+				$res=arsort($res);
+			}
+			
+			echo "<pre>";
+			var_dump($res);
+			echo "</pre>";
+		}
+		public static function clearVotes(){
+			$req="
+				DELETE FROM vote
+			";
+			db::getInstance()->request($req);
+		}
 		public static function isAccepted($dossier){
 			$req="
 				SELECT etat
@@ -29,33 +67,22 @@
 			return($res["etat"]==1);
 		}
 		public static function vote($rapporteur,$dossier,$tour,$valeur){
-			$req="
-				INSERT INTO vote(rapporteur,dossier,tour,valeur)
-				VALUES(:rapporteur,:dossier,:tour,:valeur)
-			";
-			$data=array(
-				"rapporteur"=>$rapporteur->getId(),
-				"dossier"=>$dossier->getNum(),
-				"tour"=>$tour,
-				"valeur"=>$valeur
-			);
-			$pdo=db::getInstance();
-			$pdo->request($req,$data);
-			if($valeur){
+			$file=new DataFile("config");
+			if($tour==$file->get("tour")){
 				$req="
-					UPDATE dossier
-					SET etat=1
-					WHERE dossier=:num
+					INSERT INTO vote(rapporteur,dossier,tour,valeur)
+					VALUES(:rapporteur,:dossier,:tour,:valeur)
 				";
+				$data=array(
+					"rapporteur"=>$rapporteur->getId(),
+					"dossier"=>$dossier->getNum(),
+					"tour"=>$tour,
+					"valeur"=>$valeur
+				);
+				$pdo=db::getInstance();
+				$pdo->request($req,$data);
+				$pdo->request($req,array("num"=>$dossier->getNum()));
 			}
-			else{
-				$req="
-					UPDATE dossier
-					SET etat=2
-					WHERE dossier=:num
-				";
-			}
-			$pdo->request($req,array("num"=>$dossier->getNum()));
 		}
 		public static function getNbVotants($dossier){
 			$req="
@@ -91,7 +118,7 @@
 				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
 				$r->setNum($ligne["num_dossier"]);
 				$r->setNotes($ligne["act_recherche"],$ligne["act_enseign"],$ligne["act_admin"],$ligne["visibilite"]);
-				if($r->getNbVotants()==0){
+				if($ligne["act_recherche"]==""){
 					$ret=array_merge($ret,array($r));
 				}
 			}

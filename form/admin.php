@@ -1,5 +1,5 @@
 <form method="post" action="adminAction">
-	<label>Nombre de tours</label> <input type="number" name="nbtour">
+	<label>Nombre de places disponibles</label> <input type="number" name="nbplaces">
 	<div style="text-align:center;">
 		<input type="submit" value="Valider">
 	</div>

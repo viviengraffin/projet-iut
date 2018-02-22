@@ -51,6 +51,12 @@
 	
 	$mvc->state("resultat","resultat","resultat");
 	
+	$mvc->state("tourAdminAction","tourAdminAction");
+	
+	$mvc->state("displayTime","displayTime","displayTime");
+	
+	$mvc->state("applyVotes","applyVotes");
+	
 	$mvc->dstate("error404","error404");
 	
 	$mvc->start();

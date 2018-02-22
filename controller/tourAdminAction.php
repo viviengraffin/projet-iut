@@ -1,14 +1,15 @@
 <?php
 	
 	if(RapporteurPDO::isRoot()){
-		$file=new DataFile("config");
-		
-		$actMin=date("m");
-		$actSec=date("s");
-		$actMin+=$_POST["minut"];
-		$actSecond+=$_POST["second"];
-		$date=date("U",time()+$actMin*60+$actSec);
-		$file->set("time",$date,true);
-		
-		$CONTROLLER->redirect("displayTime");
+		$form=new Form("tourAdmin");
+		if($form->isCommitted()){
+			$file=new DataFile("config");
+			
+			$date=date("U")+$_POST["minut"]*60+$_POST["second"];
+			$file->set("time",$date);
+			$file->set("nbdossiers",intval($_POST["nbdossiers"]));
+			$file->update();
+			
+			$CONTROLLER->redirect("displayTime");
+		}
 	}
