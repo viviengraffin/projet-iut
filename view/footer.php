@@ -24,7 +24,7 @@
                     <h5>Support</h5>
                     <ul>
                         <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Aide</a></li>
                         
                     </ul>
                 </div>
