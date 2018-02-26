@@ -40,27 +40,31 @@
 					$ids.=";".$dossier->getNum();
 				}
 			?>
-			<TR>
+			<TR id="dossier<?= $dossier->getNum(); ?>">
 				<TD width="2%"><?=$dossier->getNom(); ?></TD>
 					
 				<TD width="2%"><?= $dossier->getPrenom(); ?></TD>
 					
 				<TD width="2%"><select name="admin<?= $dossier->getNum(); ?>">
+					<option></option>
 					<option>=</option>
 					<option>+</option>
 					<option>++</option>
 				</select></TD>
 				<TD><select name="enseign<?= $dossier->getNum(); ?>">
+					<option></option>
 					<option>=</option>
 					<option>+</option>
 					<option>++</option>
 				</select></TD>
 				<TD><select name="recherche<?= $dossier->getNum(); ?>">
+					<option></option>
 					<option>=</option>
 					<option>+</option>
 					<option>++</option>
 				</select></TD>
 				<TD><select name="visibilite<?= $dossier->getNum(); ?>">
+					<option></option>
 					<option>=</option>
 					<option>+</option>
 					<option>++</option>
@@ -76,6 +80,12 @@
 		<div style="text-align:center;">
 			<input type="submit" value="Valider">
 		</div>
+		<script>
+			function update(num){
+			
+			}
+			
+		</script>
     </form>
 	<?php load_view("footer"); ?>
 </body>

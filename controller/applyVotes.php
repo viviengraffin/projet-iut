@@ -4,6 +4,8 @@
 		load_model("dossierPDO");
 		
 		$file=new DataFile("config");
+		$file->set("enabled",false);
+		$file->update();
 		$tour=$file->get("tour");
 		$nbaccepted=$file->get("nbplaces")-DossierPDO::applyVotes($tour,$file->get("nbplaces"));
 		if($nbaccepted==0){

@@ -23,6 +23,7 @@
 <div align="right" style="margin-right:130px;">
 	<b>Nombre de candidats:</b> &nbsp;&nbsp; <?= $nbdossiers; ?> <br/>
 	<b>Nombre de candidats restants:</b> &nbsp; &nbsp; <span id="compteur">0</span><br/>
+	<b>Chronomètre:</b>&nbsp;&nbsp; <span chrono-time="<?= $time; ?>" chrono-color-0m10s="orange" chrono-color-0m0s="red">$M:$S</span><br/>
 	<b>Tour:</b> <?= $tour ?? ""; ?>
 
 </div>
@@ -104,6 +105,7 @@
 		return(compte)
 	}
 </script>
+<script src="js/chronometre.js"></script>
 </div>
 </body>
 </html>
