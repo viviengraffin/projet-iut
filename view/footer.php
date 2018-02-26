@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3 col-md-12 col-lg-3">
-                    <h5>Get started</h5>
+                    <h5> Pour commencer</h5>
                     <ul>
                         <li><a href="Insertion candidat">Insertion candidat</a></li>
                         <li><a href="inscription.html">inscription</a></li>
@@ -13,10 +13,10 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h5>About us</h5>
+                    <h5>A propos de nous</h5>
                     <ul>
                         <li><a href="https://www.galaxie.enseignementsup-recherche.gouv.fr/ensup/candidats.html">GALAXIE enseignement </a></li>
-                        <li><a href="contact.html">Contact us</a></li>
+                        <li><a href="contact.html">Contacter nous</a></li>
                        
                     </ul>
                 </div>
