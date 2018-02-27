@@ -15,7 +15,7 @@
 						DossierPDO::vote(RapporteurPDO::getConnectedUser(),$rapp,$_POST["tour"]);
 					}
 				}
-			//	$CONTROLLER->redirect("resultat");
+				$CONTROLLER->redirect("vote");
 			}
 		}
 	}

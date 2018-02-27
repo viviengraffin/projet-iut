@@ -39,6 +39,10 @@
 				else{
 					$ids.=";".$dossier->getNum();
 				}
+				$enseign=$dossier->getEnseignement();
+				$recherche=$dossier->getRecherche();
+				$taches=$dossier->getTaches();
+				$visibilite=$dossier->getVisibilite();
 			?>
 			<TR id="dossier<?= $dossier->getNum(); ?>">
 				<TD width="2%"><?=$dossier->getNom(); ?></TD>
@@ -51,11 +55,11 @@
 					<option>+</option>
 					<option>++</option>
 				</select></TD>
-				<TD><select name="enseign<?= $dossier->getNum(); ?>">
+				<TD><select name="enseign<?= $dossier->getNum(); ?>" value="<?= $enseign; ?>">
 					<option></option>
-					<option>=</option>
-					<option>+</option>
-					<option>++</option>
+					<option <?php if($enseign=="="){ echo "selected"; } ?>>=</option>
+					<option <?php if($enseign=="+"){ echo "selected"; } ?>>+</option>
+					<option <?php if($enseign=="++"){ echo "selected"; } ?>>++</option>
 				</select></TD>
 				<TD><select name="recherche<?= $dossier->getNum(); ?>">
 					<option></option>
@@ -80,13 +84,39 @@
 		<div style="text-align:center;">
 			<input type="submit" value="Valider">
 		</div>
-		<script>
-			function update(num){
-			
-			}
-			
-		</script>
     </form>
+    <script>
+		function update(num){
+			console.dir(form)
+			if((form["admin"+num].value!="")&&(form["enseign"+num].value!="")&&(form["recherche"+num].value!="")&&(form["visibilite"+num].value!="")){
+				document.getElementById("dossier"+num).style.backgroundColor="red"
+			}
+			else{
+				document.getElementById("dossier"+num).style.backgroundColor="white"
+			}
+		}
+		var form=document.querySelector("form")
+		var table=document.querySelector("tbody").rows
+		var i=1
+		while(i<table.length){
+			var id=table[i].id.substr(7,table[i].id.length-1)
+			console.log(id)
+			form["admin"+id].addEventListener("change",function(){
+				update(id)
+			})
+			form["enseign"+id].addEventListener("change",function(){
+				update(id)
+			})
+			form["recherche"+id].addEventListener("change",function(){
+				update(id)
+			})
+			form["visibilite"+id].addEventListener("change",function(){
+				update(id)
+			})
+			update(id)
+			i++
+		}
+	</script>
 	<?php load_view("footer"); ?>
 </body>
 </html>

@@ -44,6 +44,8 @@
 				}
 				?>
 		</table>
+		<br/><br/>
+		<?= $bonus; ?>
 		<?php load_view("footer"); ?>
     </body>
 </html>

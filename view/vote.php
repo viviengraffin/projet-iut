@@ -66,7 +66,7 @@
 	<input type="submit" value="Valider">
    </div>
    <input type="hidden" name="ids" value="<?= $ids; ?>">
-   <input type="hidden" name="tour" value"<?= $tour; ?>">
+   <input type="hidden" name="tour" value="<?= $tour; ?>">
    <?= getCsrfObject()->addToken("vote")->getHiddenInput(); ?>
 </form>
 <script>

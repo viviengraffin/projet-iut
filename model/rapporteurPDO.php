@@ -27,21 +27,24 @@
 		}
 		public static function sendRecoveryMail($user,$mail){
 			if($user->getMail()==$mail){
-				if($mail!=$user->getMail()){
-					echo "Mauvais mail ou identifiant";
-				}
-				else{
-					$send=new Mail(true);
-					ob_clean();
-					load_view("mail");
-					$message=ob_get_clean();
-					$send->message($message);
-					return(true);
-				}
+				$send=new Mail(true);
+				ob_clean();
+				Session::set("code",RapporteurPDO::generateCode());
+				load_view("mail");
+				$message=ob_get_clean();
+				echo $message;
+			//	$send->message($message);
+				return(true);
 			}
 			else{
 				return(false);
 			}
+		}
+		private static function generateCode(){
+			return(rand()*9*1000);
+		}
+		public static function isGoodCode($code){
+			return(Session::get("code")==$code);
 		}
 		/*
 		public static function getUserWithName($username){

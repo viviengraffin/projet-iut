@@ -1,4 +1,4 @@
 <!DOCTYPE html>
 <html>
-	<?= $code; ?>
+	<?= $_SESSION["code"]; ?>
 </html>

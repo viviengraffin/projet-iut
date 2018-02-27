@@ -57,6 +57,12 @@
 	
 	$mvc->state("applyVotes","applyVotes");
 	
+	$mvc->state("finishVote","finishVote");
+	
+	$mvc->state("forgetpass2","forgetpass2");
+	
+	$mvc->state("forgetpass3","forgetpass3");
+	
 	$mvc->dstate("error404","error404");
 	
 	$mvc->start();
