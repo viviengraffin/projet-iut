@@ -27,12 +27,17 @@
 		}
 		public static function sendRecoveryMail($user,$mail){
 			if($user->getMail()==$mail){
-				$send=new Mail(true);
-				ob_clean();
-				load_view("",[]);
-				$message=ob_get_clean();
-				$send->message($message);
-				return(true);
+				if($mail!=$user->getMail()){
+					echo "Mauvais mail ou identifiant";
+				}
+				else{
+					$send=new Mail(true);
+					ob_clean();
+					load_view("mail");
+					$message=ob_get_clean();
+					$send->message($message);
+					return(true);
+				}
 			}
 			else{
 				return(false);
