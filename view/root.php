@@ -15,16 +15,6 @@
 	<body>
 		<?php load_view("header-root"); ?>
 		<a href="changePassword">Changer de mot de passe</a><br/>
-		<a href="inscription">Ajouter des rapporteurs</a><br/>
-		<a href="disconnect">Déconnexion</a><br/>
-		<br/><br/>
-		<?php
-			foreach($rapporteurs as $rapporteur){
-				?>
-				<a href="deleteRapporteur?id=<?= $rapporteur->getId(); ?>&<?= $token->getStringUrl(); ?>"><?= $rapporteur->getPrenom()." ".$rapporteur->getNom(); ?></a><br/>
-				<?php
-			}
-		?>
 		<?php load_view("footer"); ?>
 	</body>
 </html>

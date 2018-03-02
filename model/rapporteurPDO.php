@@ -40,6 +40,27 @@
 				return(false);
 			}
 		}
+		public static function resetPassword($user,$password){
+			echo "<pre>";
+			var_dump($user);
+			var_dump($password);
+		//	die("</pre>");
+			$db=db::getInstance();
+			$password=RapporteurPDO::hash($password);
+			var_dump($password);
+			$id=$user->getId();
+			var_dump($id);
+			$req="
+				UPDATE rapporteur
+				SET password=:password
+				WHERE id=:id
+			";
+			$data=array();
+			$data["password"]=$password;
+			$data["id"]=$id;
+			var_dump($data);
+			$db->request($db,$data);
+		}
 		private static function generateCode(){
 			return(rand()*9*1000);
 		}

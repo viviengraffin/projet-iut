@@ -63,6 +63,8 @@
 	
 	$mvc->state("forgetpass3","forgetpass3");
 	
+	$mvc->state("resetPassword","resetPassword");
+	
 	$mvc->dstate("error404","error404");
 	
 	$mvc->start();

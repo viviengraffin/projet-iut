@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Index</title>
+		<title>Réinitialisation du mot de passe</title>
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="header.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,10 +15,6 @@
 	<body>
 		<?php load_view("header"); ?>
 		<?= $form->display(); ?>
-		<br/><br/>
-		<div style="text-align:center;">
-			<a href="forgetpass">Mot de passe oublié</a>
-		</div>
 		<?php load_view("footer"); ?>
 	</body>
 </html>

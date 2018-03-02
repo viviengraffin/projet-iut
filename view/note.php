@@ -39,10 +39,10 @@
 				else{
 					$ids.=";".$dossier->getNum();
 				}
-				$enseign=$dossier->getEnseignement();
-				$recherche=$dossier->getRecherche();
-				$taches=$dossier->getTaches();
-				$visibilite=$dossier->getVisibilite();
+				$enseign=$dossier->getEnseignement() ?? "";
+				$recherche=$dossier->getRecherche() ?? "";
+				$taches=$dossier->getTaches() ?? "";
+				$visibilite=$dossier->getVisibilite() ?? "";
 			?>
 			<TR id="dossier<?= $dossier->getNum(); ?>">
 				<TD width="2%"><?=$dossier->getNom(); ?></TD>
@@ -51,9 +51,9 @@
 					
 				<TD width="2%"><select name="admin<?= $dossier->getNum(); ?>">
 					<option></option>
-					<option>=</option>
-					<option>+</option>
-					<option>++</option>
+					<option <?php if($taches=="="){ echo "selected"; } ?>>=</option>
+					<option <?php if($taches=="+"){ echo "selected"; } ?>>+</option>
+					<option <?php if($taches=="++"){ echo "selected"; } ?>>++</option>
 				</select></TD>
 				<TD><select name="enseign<?= $dossier->getNum(); ?>" value="<?= $enseign; ?>">
 					<option></option>
@@ -63,15 +63,15 @@
 				</select></TD>
 				<TD><select name="recherche<?= $dossier->getNum(); ?>">
 					<option></option>
-					<option>=</option>
-					<option>+</option>
-					<option>++</option>
+					<option <?php if($recherche=="="){ echo "selected"; } ?>>=</option>
+					<option <?php if($recherche=="+"){ echo "selected"; } ?>>+</option>
+					<option <?php if($recherche=="++"){ echo "selected"; } ?>>++</option>
 				</select></TD>
 				<TD><select name="visibilite<?= $dossier->getNum(); ?>">
 					<option></option>
-					<option>=</option>
-					<option>+</option>
-					<option>++</option>
+					<option <?php if($visibilite=="="){ echo "selected"; } ?>>=</option>
+					<option <?php if($visibilite=="+"){ echo "selected"; } ?>>+</option>
+					<option <?php if($visibilite=="++"){ echo "selected"; } ?>>++</option> -->
 				</select></TD>
 				</TR>
 				<?php
@@ -87,7 +87,6 @@
     </form>
     <script>
 		function update(num){
-			console.dir(form)
 			if((form["admin"+num].value!="")&&(form["enseign"+num].value!="")&&(form["recherche"+num].value!="")&&(form["visibilite"+num].value!="")){
 				document.getElementById("dossier"+num).style.backgroundColor="red"
 			}
@@ -100,21 +99,19 @@
 		var i=1
 		while(i<table.length){
 			var id=table[i].id.substr(7,table[i].id.length-1)
-			console.log(id)
-			form["admin"+id].addEventListener("change",function(){
-				update(id)
-			})
-			form["enseign"+id].addEventListener("change",function(){
-				update(id)
-			})
-			form["recherche"+id].addEventListener("change",function(){
-				update(id)
-			})
-			form["visibilite"+id].addEventListener("change",function(){
-				update(id)
-			})
+			/*
+			form["admin"+id].addEventListener("change",generateFunction(id))
+			form["enseign"+id].addEventListener("change",generateFunction(id))
+			form["recherche"+id].addEventListener("change",generateFunction(id))
+			form["visibilite"+id].addEventListener("change",generateFunction(id))
+			*/
 			update(id)
 			i++
+		}
+		function generateFunction(id){
+			return(function(){
+				update(id)
+			})
 		}
 	</script>
 	<?php load_view("footer"); ?>

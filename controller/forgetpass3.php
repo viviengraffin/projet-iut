@@ -1,9 +1,10 @@
 <?php
 	
-	$form=new Form("forgetpass2");
+	$form=new Form("recMailCode");
 	if((!RapporteurPDO::isConnected())&&($form->isCommitted())){
 		if(RapporteurPDO::isGoodCode($_POST["code"])){
-			$form=new Form("resetPass");
+			$form=new Form("resetPassword");
+			Session::set("mdpoublie",true);
 			$CONTROLLER->setView("resetPass");
 		}
 		else{

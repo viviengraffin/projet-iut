@@ -13,7 +13,7 @@
       <link rel="stylesheet" href="header.css">
     </head>
     <body>
-       <?php load_view("header-user"); ?>
+       <?php load_view($header); ?>
 		<table border="1">
 				<thead>
 					<th>Nom</th>
@@ -21,24 +21,26 @@
 					<th>Échelon</th>
 					<th>Ancienneté dans l'échelon</th>
 					<th>Nbre votants</th>
-					<th>N° tour</th>	
+					<th>N° tour</th>
 				</thead>
 				<?php
 				foreach($dossiers as $dossier){
-					if($dossier->isAccepted()){
+					if(DossierPDO::isPromovedInLastTour($dossier)){
 						$class=" class='green'";
 					}
 					else{
 						$class="";
 					}
+					$tour=$dossier->getTour();
+					$voteInTour=DossierPDO::getNbVotantsInThisTour($tour);
 					?>
 					<tr>
 						<td<?= $class; ?>><?= $dossier->getNom(); ?></td>
 						<td<?= $class; ?>><?= $dossier->getPrenom(); ?></td>
 						<td<?= $class; ?>><?= $dossier->getEchelon(); ?></td>
 						<td<?= $class; ?>><?= $dossier->getAncienneteEchelon(); ?> an(s)</td>
-						<td<?= $class; ?>><?= $dossier->getNbVotants(); ?></td>
-						<td<?= $class; ?>><?= $dossier->getTour(); ?></td>
+						<td<?= $class; ?>><?= $dossier->getNbVotants()."/".$voteInTour; ?></td>
+						<td<?= $class; ?>><?= $tour; ?></td>
 					</tr>
 					<?php
 				}

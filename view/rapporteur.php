@@ -12,13 +12,7 @@
 	</head>
 	<body>
 		<?php load_view("header-user"); ?>
-		<?php
-			foreach($dossiers as $dossier){
-				?>
-				<a href="note?id=<?= $dossier->getNum(); ?>"><?= $dossier->getPrenom()." ".$dossier->getNom(); ?></a><br/>
-				<?php
-			}
-		?>
+		<a href="changePassword">Changer de mot de passe</a><br/>
 		<?php load_view("footer"); ?>
 	</body>
 </html>

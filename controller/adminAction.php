@@ -6,6 +6,7 @@
 			$file->set("nbplaces",intval($_POST["nbplaces"]));
 			$file->set("tour",1);
 			$file->set("enabled",false);
+			$file->set("nbrapporteur",array());
 			$file->update();
 			$CONTROLLER->redirect("admin");
 		}

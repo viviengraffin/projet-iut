@@ -19,23 +19,6 @@
 		}
 		public static function applyVotes($tour,$nbplaces){
 			$db=db::getInstance();
-			/*
-			$req="
-				SELECT *
-				FROM dossier
-				WHERE etat=0
-			";
-			
-			$dossiers=$db->request($req);
-			
-			$resd=array();
-			
-			while($dossier=$dossiers->fetch()){
-				if($dossier["act_recherche"]!=""){
-					$resd=array_merge($resd,array($dossier));
-				}
-			}
-			*/
 			$res=array();
 			
 			$req="
@@ -66,8 +49,13 @@
 					}
 				}
 				
+				$tot=count($votants);
+				$file=new DataFile("config");
+				$rapps=$file->get("nbrapporteur");
+				$rapps[$tour]=$tot;
+				$GLOBALS["rapps"]=$rapps;
 				
-				$maj=count($votants)/2;
+				$maj=$tot/2;
 				$keys=array_keys($res);
 				$length=count($keys);
 				$nbd=$nbplaces;
@@ -84,8 +72,31 @@
 			}
 			else{
 				$nbd=$nbplaces;
+				$file=new DataFile("config");
+				$GLOBALS["rapps"]=$file->get("nbrapporteur");
 			}
 			return($nbd);
+		}
+		public static function getNbVotantsInThisTour($tour){
+			$file=new DataFile("config");
+			$rapps=$file->get("nbrapporteur");
+			if(isset($rapps[$tour])){
+				return($rapps[$tour]);
+			}
+			else{
+				return(0);
+			}
+		}
+		public static function hasVoted($rapporteur,$tour){
+			$req="
+				SELECT COUNT(*)
+				FROM vote
+				WHERE tour=:tour
+				AND rapporteur=:rapporteur
+			";
+			$db=db::getInstance();
+			$res=$db->request($req,array("tour"=>$tour,"rapporteur"=>$rapporteur->getId()))->fetch()["COUNT(*)"];
+			return($res>0);
 		}
 		public static function getNbVotants($dossier){
 			$num=$dossier->getNum();
@@ -114,6 +125,17 @@
 			";
 			$db=db::getInstance();
 			$db->request($req,array("dossier"=>$dossier));
+		}
+		public static function isPromovedInLastTour($dossier){
+			$req="
+				SELECT MAX(tour)
+				FROM vote
+				WHERE dossier=:dossier
+			";
+			$file=new DataFile("config");
+			$actTour=$file->get("tour");
+			$db=db::getInstance();
+			return($db->request($req,array("dossier"=>$dossier->getNum()))->fetch()["MAX(tour)"]==$actTour-1);
 		}
 		public static function clearVotes(){
 			$req="
@@ -193,6 +215,9 @@
 			while($ligne=$res->fetch()){
 				$r=new Dossier($ligne["nom"],$ligne["prenom"],$ligne["anc_echelon"],$ligne["anc_enseign"],$ligne["echelon"],RapporteurPDO::getUser(intval($ligne["rapporteur1"])),RapporteurPDO::getUser(intval($ligne["rapporteur2"])));
 				$r->setNum($ligne["num_dossier"]);
+				if($ligne["act_recherche"]!=""){
+					$r->setNotes($ligne["act_recherche"],$ligne["act_enseign"],$ligne["act_admin"],$ligne["visibilite"]);
+				}
 				$ret=array_merge($ret,array($r));
 			}
 			return($ret);
@@ -250,10 +275,6 @@
 			$pdo=db::getInstance();
 			$res=$pdo->request($req,$data)->fetch();
 			$rid=$rapporteur->getId();
-			echo "<pre>";
-			var_dump($res);
-			var_dump($rid);
-			echo "</pre>";
 			if(($res["rapporteur1"]==$rid)||($res["rapporteur2"]==$rid)){
 				if(($res["act_recherche"]=="")||($res["act_recherche"]==null)){
 					$req="
